@@ -1,0 +1,42 @@
+$base: #575759;
+
+$medium: $base;
+$neutral: $base;
+
+
+$light-1: lighten($base, 15.3);
+$light-2: lighten($base, 35.3);
+$light-3: lighten($base, 48.2);
+$light-4: lighten($base, 59);
+$lightest: $light-4;
+
+$light-opaque: rgba($lightest, 0.9);
+
+$dark-1: darken($base, 4.7);
+$dark-2: darken($base, 9.8);
+$dark-3: darken($base, 15);
+$dark-4: darken($base, 22);
+$darkest: $dark-4;
+
+$transition-time: 150ms;
+$transition: $transition-time ease-out;
+
+$dropdown-shadow: 
+  0 10px 10px rgba(0, 0, 0, 0.15);
+
+$xs-font: 0.75rem;
+$s-font: 0.8rem;
+$m-font: 0.925rem;
+$l-font: 0.95rem;
+$xl-font: 1.15rem; 
+$xxl-font: 1.4rem;
+  
+$xxs-size: 0.1rem;
+$xs-size: 0.25rem;
+$s-size: 0.4rem;
+$m-size: 0.65rem;
+$ml-size: 1rem;
+$l-size: 1.2rem;
+$xl-size: 1.8rem;
+$xxl-size: 2.2rem;
+$xxxl-size: 3rem;
