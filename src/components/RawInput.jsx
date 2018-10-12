@@ -5,8 +5,8 @@ import _noop from 'lodash/noop'
 const RawInput = ({
   autoComplete,
   autoFocus,
-  isDisabled,
-  isReadOnly,
+  disabled,
+  readOnly,
   onChange,
   value,
   type,
@@ -14,13 +14,14 @@ const RawInput = ({
   onFocus,
   onKeyDown,
   placeholder,
+  className,
 }) => (
   <input
-    className="__raw-input"
+    className={className}
     type={type}
     autoComplete={autoComplete.toString()}
     autoFocus={autoFocus}
-    disabled={isDisabled}
+    disabled={disabled}
     onChange={event => {
       onChange(event.target.value)
     }}
@@ -30,7 +31,7 @@ const RawInput = ({
     placeholder={placeholder}
     spellCheck="false"
     value={value}
-    readOnly={isReadOnly}
+    readOnly={readOnly}
   />
 )
 
@@ -38,8 +39,8 @@ RawInput.displayName = "RawInput"
 RawInput.propTypes = {
   autoFocus: PropTypes.bool,
   autoComplete: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  isReadOnly: PropTypes.bool,
+  disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.any.isRequired,
@@ -51,11 +52,12 @@ RawInput.propTypes = {
   onFocus: PropTypes.func,
   onKeyDown: PropTypes.func,
 }
+
 RawInput.defaultProps = {
   autoFocus: false,
   autoComplete: false,
-  isDisabled: false,
-  isReadOnly: false,
+  disabled: false,
+  readOnly: false,
   type: "text",
   onBlur: _noop,
   onFocus: _noop,

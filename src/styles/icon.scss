@@ -1,0 +1,9 @@
+.input-container > .__icon {
+  height: $font-size;
+  width: $font-size;
+  padding-right: $xs-size;
+
+  &.--control {
+    cursor: pointer;
+  }
+}

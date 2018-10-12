@@ -1,0 +1,26 @@
+.input-container {
+  border: $border;
+  display: inline-flex;
+  color: $darkest;
+  align-items: center;
+  width: $input-container-width;
+
+  &.--disabled {
+    cursor: default;
+    border-color: $neutral;
+    color: $neutral;
+  }
+
+  &.--read-only input {
+    cursor: default;
+  }
+
+  & > .__raw-input {
+    flex: 1;
+  }
+
+  & > .__icon {
+    flex: 0 0 auto;
+  }
+
+}

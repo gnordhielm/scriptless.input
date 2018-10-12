@@ -1,9 +1,4 @@
 @import "./variables";
-@import "./RawInput";
-
-.input-container {
-  border: $border;
-  display: inline-flex;
-  color: $darkest;
-  padding: 0.2rem 0.3rem;
-}
+@import "./icon";
+@import "./input-container";
+@import "./raw-input";

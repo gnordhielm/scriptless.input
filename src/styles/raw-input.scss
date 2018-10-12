@@ -1,10 +1,10 @@
-.__raw-input {
+.input-container > .__raw-input {
   outline: none;
   border: none;
   margin: 0;
-  padding: 0;
   background: none;
   color: inherit;
+  padding: $xs-size 0 $xs-size $s-size;
 }
 
 // .input {

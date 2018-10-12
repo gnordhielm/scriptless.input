@@ -1,13 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import isDefined from 'utils/isDefined'
+
 class GenericInputWrapper extends React.Component {
   
   state = {
-    value: ""
+    value: this.props.startValue,
   }
 
   handleChange = value => {
+    if (!isDefined(value))
+      value = this.props.emptyValue
+
     this.setState(() => ({ value }))
     this.props.reportChange(value)
   }
@@ -35,6 +40,7 @@ GenericInputWrapper.propTypes = {
   props: PropTypes.object,
   Component: PropTypes.func.isRequired,
   reportChange: PropTypes.func.isRequired,
+  emptyValue: PropTypes.any,
 }
 
 GenericInputWrapper.defaultProps = {

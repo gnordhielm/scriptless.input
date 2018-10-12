@@ -1,0 +1,1 @@
+export default argument => argument !== undefined

@@ -2,50 +2,89 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _noop from 'lodash/noop'
 import { classNames } from '@leiops/helpers'
+import Icon from '@leiops/icon'
 
+import isDefined from 'utils/isDefined'
 import withDebouncedOnChange from 'utils/withDebouncedOnChange'
 import { baseClass } from 'settings'
 import RawInput from 'components/RawInput'
+
+// DEV - if I separate key functional styles from presentational ones, this baseClass thing becomes a non-issue. People can very easily overwrite existing styles without worrying about anything. The only concern might be making the class name more unique
 
 const rootClassName = classNames(
   baseClass + "-container",
   "--string",
 )
 
+// TO DO - clearing should deliver focus to the child
 const StringInput = ({
-  onChange,
-  value,
+  className,
+  clearable,
+  Icon: CustomIcon,
+  disabled,
   ...rest
 }) => (
-  <div className={rootClassName}>
+  <div 
+    className={classNames(
+      rootClassName, 
+      className,
+      isDefined(disabled) && "--disabled",
+      rest.readOnly && "--read-only",
+    )}
+    title={
+      (disabled && typeof disabled === 'string') ?
+        disabled : undefined
+    }
+  >
     <RawInput
-      onChange={onChange}
-      value={value}
       { ...rest }
+      disabled={isDefined(disabled)}
+      className="__raw-input"
     />
+    {(clearable && rest.value) ?
+      <Icon.Clear 
+        className="__icon --control"
+        onClick={() => rest.onChange()}
+      /> : CustomIcon ?
+        <CustomIcon 
+          className="__icon"
+        /> : null
+    }
   </div>
 )
 
 StringInput.displayName = "StringInput"
 
+const basicComponentProps = {
+  // provice a css class
+  className: PropTypes.string,
+}
+
+const basicInputProps = {
+    // focus the input as soon as it enters the DOM
+   autoFocus: PropTypes.bool,
+   // stop the component from receiving user input, when passed a string, that string will be displayed on hover
+   disabled: PropTypes.oneOfType([
+       PropTypes.bool,
+       PropTypes.string
+   ]),
+   // will provide a clear button, which will trigger an onchange with undefined when clicked
+   clearable: PropTypes.bool,
+}
+
 StringInput.propTypes = {
-    /**
-    * focus the input as soon as it enters the DOM
-    */
-    autoFocus: PropTypes.bool,
+  ...basicComponentProps,
+  ...basicInputProps,
+
+  // a component to render as an icon, must have the class __icon
+  Icon: PropTypes.func,
+
+
 //     /**
 //     * provides a different set of styles ideal for
 //     * use within lines of text (formerly called 'compact')
 //     */
 //     inline: PropTypes.bool,
-//     /**
-//     * stop the component from receiving user input, when passed a
-//     * string, that string will be displayed on hover
-//     */
-//     disabled: PropTypes.oneOfType([
-//         PropTypes.bool,
-//         PropTypes.string
-//     ]),
 //     /**
 //     * display the specified icon in the right side of the input
 //     */
@@ -93,7 +132,7 @@ StringInput.propTypes = {
 }
 
 StringInput.defaultProps = {
-  autoFocus: false,
+  clearable: false,
 //     inline: false,
 //     disabled: false,
 //     icon: '',

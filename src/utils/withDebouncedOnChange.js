@@ -7,15 +7,15 @@ import {
   defaultDebounce
 } from 'settings'
 
+// TO DO - let users specify their own default debounce in an adapter file
+
 const getDebounceBy = debounceBy => {
 
   const type = typeof debounceBy
   if (type === 'number')
     return debounceBy
-  if (type === 'boolean')
-    return defaultDebounce
   else
-    return 0
+    return defaultDebounce
 }
 
 function withDebouncedOnChange(WrappedComponent) {
@@ -92,14 +92,9 @@ function withDebouncedOnChange(WrappedComponent) {
 
   WithDebounce.propTypes = {
     /**
-     * when present, delays onChange invocation
-     * either by a specified number of milliseconds
-     * or the default specified in the constants file
+     * delays onChange invocation by a specified number of milliseconds
      */
-    debounceBy: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.number
-    ]).isRequired,
+    debounceBy: PropTypes.number,
   }
 
   return WithDebounce
