@@ -41,6 +41,7 @@ module.exports = {
     alias: {
       components: path.resolve(process.cwd(), 'src/components/'),
       interfaces: path.resolve(process.cwd(), 'src/interfaces/'),
+      examples: path.resolve(process.cwd(), './examples/'),
       utils: path.resolve(process.cwd(), 'src/utils/'),
       styles: path.resolve(process.cwd(), 'src/styles/'),
       settings: path.resolve(process.cwd(), 'src/settings.js'),

@@ -30,16 +30,11 @@
   ],
   "author": "Gus Nordhielm",
   "license": "ISC",
-  "peerDependencies": {
-    "react": "16.x",
-    "react-dom": "16.x"
-  },
   "dependencies": {
     "@leiops/dropdown": "^0.1.0",
+    "@leiops/helpers": "^1.3.2",
     "@leiops/icon": "^1.0.15",
-    "lodash": "^4.17.11",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@storybook/addon-actions": "4.0.0-alpha.24",
@@ -56,6 +51,9 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "node-sass": "^4.9.3",
+    "prop-types": "^15.6.2",
+    "react": "16.x",
+    "react-dom": "16.x",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "webpack": "^4.20.2",

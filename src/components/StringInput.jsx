@@ -1,174 +1,38 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
-// import AutosizeInput from 'react-input-autosize'
-// import _noop from 'lodash/noop'
+import PropTypes from 'prop-types'
+import _noop from 'lodash/noop'
+import { classNames } from '@leiops/helpers'
+
 import withDebouncedOnChange from 'utils/withDebouncedOnChange'
+import { baseClass } from 'settings'
+import RawInput from 'components/RawInput'
 
-// class StringInput extends React.Component {
+const rootClassName = classNames(
+  baseClass + "-container",
+  "--string",
+)
 
-//     state = {
-//         value: this.props.value || ''
-//     }
+const StringInput = ({
+  onChange,
+  value,
+  ...rest
+}) => (
+  <div className={rootClassName}>
+    <RawInput
+      onChange={onChange}
+      value={value}
+      { ...rest }
+    />
+  </div>
+)
 
-//     setInputRef = el => { this.inputElement = el }
+StringInput.displayName = "StringInput"
 
-//     static getDerivedStateFromProps = () => {
-//         return null
-//     }
-
-//     UNSAFE_componentWillReceiveProps({ value, autoFocus }) {
-        
-//         // if (this.inputElement &&
-//         //     autoFocus && 
-//         //     autoFocus !== this.props.autoFocus)
-//         //     this.inputElement.focus()
-
-//         // if (this.pendingOnChange) return
-//         // if (typeof value !== 'undefined' && this.state.value !== value) {
-//         //     this.setState(() => ({ value }))
-//         // }
-
-//     }
-
-//     handleChange = event => {
-//         event.persist()
-
-//         const newValue = event.target.value
-//         this.setState(() => ({ value: newValue }), () => {
-//             this.triggerParentOnChange(newValue)
-//         })
-//     }
-
-//     onClear = () => {
-//         // const newValue = ''
-//         // this.setState(() => ({ value: newValue }), () => {
-//         //     this.flush()
-//         //     if (this.props.onClear) {
-//         //         this.props.onClear(newValue)
-//         //     } else {
-//         //         this.triggerParentOnChange(newValue)
-//         //     }
-//         // })
-//     }
-
-//     checkEnterPress = event => {
-//         if (event.key !== 'Enter') return
-
-//         event.persist()
-//         this.props.onChange(event.target.value)
-//         this.props.onEnter(event)
-//     }
-
-
-//     handleBlur = event => {
-//         this.props.onChange(event.target.value)
-//         const { onBlur } = this.props
-//         if (onBlur) onBlur(event)
-//     }
-
-//     // Utility
-
-//     moveCaretToEnd = evt => {
-//         evt.persist()
-//         // const stash = evt.target.value
-//         // evt.target.value = ''
-//         // evt.target.value = stash
-//         const el = evt.target
-//         el.scrollLeft = el.scrollWidth
-//         if (typeof el.selectionStart === "number") {
-//             el.selectionStart = el.selectionEnd = el.value.length
-//         } else if (typeof el.createTextRange !== "undefined") {
-//             el.focus()
-//             var range = el.createTextRange()
-//             range.collapse(false)
-//             range.select()
-//         }
-//     }
-
-//     // Rendering
-
-//     renderIcon = () => {
-//         const { onClear, icon, loading } = this.props
-//         if (loading) {
-//             return <i className="icon loading" />
-//         } else if (this.state.value && onClear) {
-//             return <i
-//                 className="icon remove av action"
-//                 onClick={this.onClear}
-//             />
-//         } else if (icon && typeof icon === 'string') {
-//             return <i className={`icon ${icon}`} />
-//         } else if (icon) {
-//             return <i className="icon search" />
-//         }
-//     }
-
-//     renderDisabled = disabled => {
-
-//         if (!disabled) return
-
-//         return (<div className="disabled-overlay">
-//             {typeof disabled === 'string' &&
-//                 <p>{disabled}</p>}
-//         </div>)
-//     }
-
-//     render() {
-
-//         if (this.props.inline) return (
-//             <div className="av string input inline">
-//                 {this.renderDisabled(this.props.disabled)}
-//                 <AutosizeInput
-//                     autoComplete="false"
-//                     autoFocus={this.props.autoFocus}
-//                     className="exempt"
-//                     disabled={this.props.disabled}
-// 					minWidth={this.props.minWidth}
-//                     onChange={this.handleChange}
-//                     onBlur={this.handleBlur}
-//                     onFocus={this.moveCaretToEnd}
-//                     onKeyDown={this.checkEnterPress}
-//                     placeholder={this.props.placeholder}
-// 					ref={this.getInputRef}
-//                     spellCheck="false"
-//                     type="text"
-//                     value={this.state.value || ""}
-//                 />
-//             </div>
-//         )
-
-//         return (
-//             <div className="av string input">
-//                 {this.renderDisabled(this.props.disabled)}
-//                 <input
-//                     autoComplete="false"
-//                     autoFocus={this.props.autoFocus}
-//                     className="exempt"
-//                     disabled={this.props.disabled}
-//                     onChange={this.handleChange}
-//                     onBlur={this.handleBlur}
-//                     onFocus={this.moveCaretToEnd}
-//                     onKeyDown={this.checkEnterPress}
-//                     placeholder={this.props.placeholder}
-//                     spellCheck="false"
-//                     type="text"
-//                     value={this.state.value || ""}
-//                     readOnly={this.props.readOnly}
-//                     ref={this.setInputRef}
-//                 />
-//                 {this.renderIcon()}
-//             </div>
-
-//         )
-//     }
-
-// }
-
-// StringInput.propTypes = {
-//     /**
-//     * focus the input as soon as it enters the DOM
-//     */
-//     autoFocus: PropTypes.bool,
+StringInput.propTypes = {
+    /**
+    * focus the input as soon as it enters the DOM
+    */
+    autoFocus: PropTypes.bool,
 //     /**
 //     * provides a different set of styles ideal for
 //     * use within lines of text (formerly called 'compact')
@@ -189,10 +53,6 @@ import withDebouncedOnChange from 'utils/withDebouncedOnChange'
 //         PropTypes.bool,
 //         PropTypes.string
 //     ]),
-//     /**
-//     * display a loading animation (overwrites the icon)
-//     */
-//     loading: PropTypes.bool,
 //     /**
 //     * minimum width for inline inputs
 //     */
@@ -229,12 +89,11 @@ import withDebouncedOnChange from 'utils/withDebouncedOnChange'
 //     /**
 //     * the value of the input
 //     */
-//     value: PropTypes.string.isRequired
-// }
+//     value: PropTypes.string.isRequired,
+}
 
-// // TO DO - a bunch of these can easily be made into a parent class.
-
-// StringInput.defaultProps = {
+StringInput.defaultProps = {
+  autoFocus: false,
 //     inline: false,
 //     disabled: false,
 //     icon: '',
@@ -243,8 +102,8 @@ import withDebouncedOnChange from 'utils/withDebouncedOnChange'
 //     onEnter: _noop,
 //     onEnter: _noop,
 //     minWidth: 15,
-// }
+}
 
-const StringInput = () => "StringInput"
+StringInput.Debounced = withDebouncedOnChange(StringInput)
 
-export default withDebouncedOnChange(StringInput)
+export default StringInput

@@ -2,14 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import _debounce from 'lodash/debounce'
 
-import { defaultDebounce } from 'settings'
+import getDisplayName from 'utils/getDisplayName'
+import {
+  defaultDebounce
+} from 'settings'
 
 const getDebounceBy = debounceBy => {
-  const type = typeof debounceBy
 
+  const type = typeof debounceBy
   if (type === 'number')
     return debounceBy
-  if (type ==='boolean')
+  if (type === 'boolean')
     return defaultDebounce
   else
     return 0
@@ -18,63 +21,85 @@ const getDebounceBy = debounceBy => {
 function withDebouncedOnChange(WrappedComponent) {
   class WithDebounce extends React.Component {
 
-    pendingOnChange = false
+    state = {
+      value: this.props.value,
+      hasPendingOnChange: false,
+    }
 
-    debounceBy = getDebounceBy(this.props.debounceBy)
+    parentOnChange = _debounce(() => {
+      this.setState(() => ({
+        hasPendingOnChange: false
+      }))
+      this.props.onChange(this.state.value)
+    }, getDebounceBy(this.props.debounceBy))
 
-    parentOnChange = _debounce(value => {
-        this.pendingOnChange = false
-        this.props.onChange(value)
-    }, this.debounceBy)
-    
-    triggerParentOnChange = value => {
-        this.pendingOnChange = true
-        this.parentOnChange(value)
+    triggerParentOnChange = () => {
+      this.setState(() => ({
+        hasPendingOnChange: true
+      }))
+      this.parentOnChange()
     }
 
     flush = () => this.parentOnChange.flush()
 
     cancel = () => {
-        this.pendingOnChange = false
-        this.parentOnChange.cancel()
+      this.setState(() => ({
+        hasPendingOnChange: false
+      }))
+      this.parentOnChange.cancel()
     }
 
-    componentWillUnmount() { 
-      this.flush() 
+    componentWillUnmount() {
+      this.flush()
     }
 
     handleChange = value => {
-          this.triggerParentOnChange(value)
+      this.setState(() => ({
+        value
+      }))
+      this.triggerParentOnChange()
     }
 
     forceParentOnChange = event => {
-        if (!this.pendingOnChange) return
-        this.cancel()
-        this.props.onChange(event.target.value)
+      if (!this.pendingOnChange) return
+      this.cancel()
+      this.props.onChange(event.target.value)
     }
 
     render() {
+
+      const {
+        debounceBy,
+        onChange,
+        value,
+        ...sanitizedProps
+      } = this.props
+
+      // if (this.debounceBy === null)
+      //   return <WrappedComponent {...this.props} />
+
       return <WrappedComponent
         onChange={this.handleChange}
-        {...this.props} 
+        value={this.state.value}
+        { ...sanitizedProps}
       />
     }
   }
 
-  WithDebounce.defaultProps = {
-    debounce: false,
-  }
+  WithDebounce.displayName = `WithDebounce(${getDisplayName(WrappedComponent)})`
+
+  WithDebounce.defaultProps = {}
 
   WithDebounce.propTypes = {
     /**
-    * when present, delays onChange invocation
-    * either by a specified number of milliseconds
-    * or the default specified in the constants file
-    */
-    debounce: PropTypes.oneOfType([
-        PropTypes.bool,
-        PropTypes.number
-    ]),
+     * when present, delays onChange invocation
+     * either by a specified number of milliseconds
+     * or the default specified in the constants file
+     */
+    debounceBy: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number
+    ]).isRequired,
   }
 
   return WithDebounce
