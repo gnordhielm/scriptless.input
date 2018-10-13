@@ -11,6 +11,9 @@ import {
 
 const getDebounce = debounce => { 
 
+  if (!debounce)
+    return null
+
   const type = typeof debounce
   if (type === 'number')
     return debounce

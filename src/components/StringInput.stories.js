@@ -51,7 +51,6 @@ storiesOf('StringInput', module)
     .add('with debounce', () => (
         <GenericInputWrapper 
             { ...baseProps }
-            Component={StringInput}
             props={{
                 debounce: 500
             }}
@@ -149,13 +148,14 @@ storiesOf('StringInput', module)
             }}
         />
     ))
-    .add('auto sized, inline, with placeholder', () => (
+    .add('auto sized, inline, with placeholder, with max width', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
                 placeholder: "Type away...",
                 autoSize: true,
                 inline: true,
+                maxWidth: 50,
             }}
         />
     ))

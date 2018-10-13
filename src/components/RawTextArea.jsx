@@ -1,16 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _noop from 'lodash/noop'
-import AutoSizeInput from 'components/AutoSizeInput'
-import { ENTER_KEY } from 'settings'
+import AutoSizeTextArea from 'components/AutoSizeTextArea'
+import { ENTER_KEY, defaultRows } from 'settings'
 
-const getHandleKeyPress = onEnter => {
+const getHandleKeyPress = (onEnter, onChange, value) => {
+
   if (!onEnter) 
-    return _noop
+    return () => {
+      onChange(value + "\n")
+    }
   else
     return event => {
       if (event.key === ENTER_KEY) 
       {
+        onChange(value + "\n")
         onEnter()
         event.stopPropagation()
         event.preventDefault()
@@ -18,7 +22,7 @@ const getHandleKeyPress = onEnter => {
     }
 }
 
-const RawInput = ({
+const RawTextArea = ({
   autoComplete,
   autoFocus,
   autoSize,
@@ -26,20 +30,21 @@ const RawInput = ({
   readOnly,
   onChange,
   value,
-  type,
   onBlur,
   onFocus,
   onEnter,
   placeholder,
   className,
+  minRows,
+  maxRows,
 }) => {
 
-  const Component = autoSize ? AutoSizeInput : 'input'
+  const Component = autoSize ? AutoSizeTextArea : 'textarea'
 
   return (
     <Component
+      autoCapitalize="sentences"
       className={className}
-      type="text"
       autoComplete={autoComplete.toString()}
       autoFocus={autoFocus}
       disabled={disabled}
@@ -48,17 +53,20 @@ const RawInput = ({
       }}
       onBlur={onBlur}
       onFocus={onFocus}
-      onKeyPress={getHandleKeyPress(onEnter)}
+      onKeyPress={getHandleKeyPress(onEnter, onChange, value)}
       placeholder={placeholder}
       spellCheck="false"
       value={value}
       readOnly={readOnly}
+      rows={autoSize ? undefined : defaultRows}
+      minRows={autoSize ? minRows : undefined}
+      maxRows={autoSize ? maxRows : undefined}
     />
   )
 }
 
-RawInput.displayName = "RawInput"
-RawInput.propTypes = {
+RawTextArea.displayName = "RawTextArea"
+RawTextArea.propTypes = {
   autoFocus: PropTypes.bool,
   autoComplete: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -71,7 +79,7 @@ RawInput.propTypes = {
   onEnter: PropTypes.func,
 }
 
-RawInput.defaultProps = {
+RawTextArea.defaultProps = {
   autoSize: false,
   autoFocus: false,
   autoComplete: false,
@@ -82,4 +90,4 @@ RawInput.defaultProps = {
   onEnter: _noop,
 }
 
-export default RawInput
+export default RawTextArea

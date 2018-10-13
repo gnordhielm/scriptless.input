@@ -1,0 +1,12 @@
+.input-container > .__text-area {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  margin: $xs-size $s-size;
+  resize: vertical;
+  width: 100%;
+  white-space: pre-line;
+}

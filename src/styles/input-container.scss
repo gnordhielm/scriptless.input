@@ -11,7 +11,7 @@
     margin: 0 $s-size;
 
     & > .__input {
-      margin: $xs-size 0;
+      padding: $xs-size 0;
     }
 
     & > .__icon {
@@ -34,16 +34,19 @@
     color: $neutral;
   }
 
-  & > .__input {
+  & > .__input,
+  & > .__text-area {
     flex: 1;
     min-width: 0;
+    align-self: stretch;
   }
 
   & > .__icon {
     flex: 0 0 auto;
   }
 
-  &.--read-only > .__input {
+  &.--read-only > .__input, 
+  &.--read-only > .__text-area {
     cursor: default;
   }
 

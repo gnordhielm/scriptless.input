@@ -4,6 +4,8 @@ import _noop from 'lodash/noop'
 import { classNames } from '@leiops/helpers'
 import Icon from '@leiops/icon'
 
+import * as basicComponentProps from 'utils/basicComponentProps'
+import * as basicInputProps from 'utils/basicInputProps'
 import isDefined from 'utils/isDefined'
 import withDebouncedOnChange from 'utils/withDebouncedOnChange'
 import { baseClass } from 'settings'
@@ -24,13 +26,14 @@ const StringInput = ({
   disabled,
   inline,
   minWidth,
+  maxWidth,
   ...rest
 }) => (
   <div 
     className={classNames(
       rootClassName, 
       className,
-      isDefined(disabled) && "--disabled",
+      disabled && "--disabled",
       rest.readOnly && "--read-only",
       inline && "--inline",
       ((clearable && rest.value) || isDefined(CustomIcon)) && "--with-icon",
@@ -39,6 +42,7 @@ const StringInput = ({
     style={{
       width: rest.autoSize ? 'min-content' : undefined,
       minWidth,
+      maxWidth,
     }}
     title={
       (disabled && typeof disabled === 'string') ?
@@ -47,7 +51,7 @@ const StringInput = ({
   >
     <RawInput
       { ...rest }
-      disabled={isDefined(disabled)}
+      disabled={!!disabled}
       className="__input"
     />
     {(clearable && rest.value) ?
@@ -64,85 +68,14 @@ const StringInput = ({
 
 StringInput.displayName = "StringInput"
 
-const basicComponentProps = {
-  // provice a css class
-  className: PropTypes.string,
-}
-
-const basicInputProps = {
-    // focus the input as soon as it enters the DOM
-   autoFocus: PropTypes.bool,
-   // stop the component from receiving user input, when passed a string, that string will be displayed on hover
-   disabled: PropTypes.oneOfType([
-       PropTypes.bool,
-       PropTypes.string
-   ]),
-   // will provide a clear button, which will trigger an onchange with undefined when clicked
-   clearable: PropTypes.bool,
-}
-
 StringInput.propTypes = {
-  ...basicComponentProps,
-  ...basicInputProps,
-
-  // a component to render as an icon, must have the class __icon
-  Icon: PropTypes.func,
-
-
-//     /**
-//     * provides a different set of styles ideal for
-//     * use within lines of text (formerly called 'compact')
-//     */
-//     inline: PropTypes.bool,
-//     /**
-//     * display the specified icon in the right side of the input
-//     */
-//     icon: PropTypes.oneOfType([
-//         PropTypes.bool,
-//         PropTypes.string
-//     ]),
-//     /**
-//     * minimum width for inline inputs
-//     */
-//     minWidth: PropTypes.number,
-//     /**
-//     * invoke on input blur
-//     */
-//     onBlur: PropTypes.func,
-//     /**
-//     * invoke with the new value whenever the value changes
-//     */
-//     onChange: PropTypes.func.isRequired,
-//     /**
-//     * display a clear button when there is an input value,
-//     * invoke when it's clicked
-//     */
-//     onClear: PropTypes.func,
-//     /**
-//     * invoke on enter press
-//     */
-//     onEnter: PropTypes.func,
-//     /**
-//     * an array of options the user can chose from
-//     */
-//     options: PropTypes.array,
-//     /**
-//     * display the plain value without edit capabilities
-//     */
-//     readOnly: PropTypes.bool,
-//     /**
-//     * text to display when the input value is empty
-//     */
-//     placeholder: PropTypes.string,
-//     /**
-//     * the value of the input
-//     */
-//     value: PropTypes.string.isRequired,
+  ...basicComponentProps.propTypes,
+  ...basicInputProps.propTypes,
 }
 
 StringInput.defaultProps = {
-  clearable: false,
-  autoSize: false,
+  ...basicComponentProps.defaultProps,
+  ...basicInputProps.defaultProps,
 }
 
 const WithDebounce = withDebouncedOnChange(StringInput)
