@@ -1,9 +1,32 @@
 .input-container {
   border: $border;
-  display: inline-flex;
+  display: flex;
   color: $darkest;
   align-items: center;
-  width: $input-container-width;
+
+  &.--inline {
+    display: inline-flex;
+    border: 0;
+    border-bottom: $border;
+    margin: 0 $s-size;
+
+    & > .__input {
+      margin: $xs-size 0;
+    }
+
+    & > .__icon {
+      padding: 0;
+    }
+
+    &.--with-icon {
+
+      // TO DO - this creates a possible bug where the icon sits on top of the input value, fix that
+      // & > .__icon {
+      //   margin-left: -$font-size;
+      // }
+
+    }
+  }
 
   &.--disabled {
     cursor: default;
@@ -11,16 +34,21 @@
     color: $neutral;
   }
 
-  &.--read-only input {
-    cursor: default;
-  }
-
-  & > .__raw-input {
+  & > .__input {
     flex: 1;
+    min-width: 0;
   }
 
   & > .__icon {
     flex: 0 0 auto;
   }
+
+  &.--read-only > .__input {
+    cursor: default;
+  }
+
+  // &.--auto-size > .__input {
+  //   flex: 0 0 auto;
+  // }
 
 }

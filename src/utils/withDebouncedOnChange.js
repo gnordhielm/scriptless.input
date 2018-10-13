@@ -9,13 +9,15 @@ import {
 
 // TO DO - let users specify their own default debounce in an adapter file
 
-const getDebounceBy = debounceBy => {
+const getDebounce = debounce => { 
 
-  const type = typeof debounceBy
+  const type = typeof debounce
   if (type === 'number')
-    return debounceBy
-  else
+    return debounce
+  else if (type === 'boolean')
     return defaultDebounce
+  else
+    return null
 }
 
 function withDebouncedOnChange(WrappedComponent) {
@@ -31,7 +33,7 @@ function withDebouncedOnChange(WrappedComponent) {
         hasPendingOnChange: false
       }))
       this.props.onChange(this.state.value)
-    }, getDebounceBy(this.props.debounceBy))
+    }, getDebounce(this.props.debounce))
 
     triggerParentOnChange = () => {
       this.setState(() => ({
@@ -69,14 +71,18 @@ function withDebouncedOnChange(WrappedComponent) {
     render() {
 
       const {
-        debounceBy,
+        debounce,
         onChange,
         value,
         ...sanitizedProps
       } = this.props
 
-      // if (this.debounceBy === null)
-      //   return <WrappedComponent {...this.props} />
+      if (getDebounce(this.props.debounce) === null)
+        return <WrappedComponent 
+          onChange={onChange}
+          value={value}
+          { ...sanitizedProps}
+        />
 
       return <WrappedComponent
         onChange={this.handleChange}
@@ -94,7 +100,10 @@ function withDebouncedOnChange(WrappedComponent) {
     /**
      * delays onChange invocation by a specified number of milliseconds
      */
-    debounceBy: PropTypes.number,
+    debounce: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool,
+    ]),
   }
 
   return WithDebounce

@@ -22,6 +22,8 @@ const StringInput = ({
   clearable,
   Icon: CustomIcon,
   disabled,
+  inline,
+  minWidth,
   ...rest
 }) => (
   <div 
@@ -30,7 +32,14 @@ const StringInput = ({
       className,
       isDefined(disabled) && "--disabled",
       rest.readOnly && "--read-only",
+      inline && "--inline",
+      ((clearable && rest.value) || isDefined(CustomIcon)) && "--with-icon",
+      rest.autoSize && "--auto-size",
     )}
+    style={{
+      width: rest.autoSize ? 'min-content' : undefined,
+      minWidth,
+    }}
     title={
       (disabled && typeof disabled === 'string') ?
         disabled : undefined
@@ -39,7 +48,7 @@ const StringInput = ({
     <RawInput
       { ...rest }
       disabled={isDefined(disabled)}
-      className="__raw-input"
+      className="__input"
     />
     {(clearable && rest.value) ?
       <Icon.Clear 
@@ -133,16 +142,9 @@ StringInput.propTypes = {
 
 StringInput.defaultProps = {
   clearable: false,
-//     inline: false,
-//     disabled: false,
-//     icon: '',
-//     readOnly: false,
-//     value: '',
-//     onEnter: _noop,
-//     onEnter: _noop,
-//     minWidth: 15,
+  autoSize: false,
 }
 
-StringInput.Debounced = withDebouncedOnChange(StringInput)
+const WithDebounce = withDebouncedOnChange(StringInput)
 
-export default StringInput
+export default WithDebounce

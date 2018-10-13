@@ -36,6 +36,9 @@
     "@leiops/icon": "^1.0.15",
     "lodash": "^4.17.11"
   },
+  "peerDependencies": {
+    "react": "16.x"
+  },
   "devDependencies": {
     "@storybook/addon-actions": "4.0.0-alpha.24",
     "@storybook/addon-knobs": "4.0.0-alpha.24",

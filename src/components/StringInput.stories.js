@@ -11,6 +11,7 @@ const baseProps = {
     Component: StringInput,
     reportChange: action('onChange'),
     emptyValue: "",
+    startValue: "",
 }
 
 storiesOf('StringInput', module)
@@ -39,14 +40,20 @@ storiesOf('StringInput', module)
         />
     ))
     .add('with on enter', () => (
-        <div>TO DO</div>
+        <GenericInputWrapper 
+            { ...baseProps }
+            startValue="Press enter."
+            props={{
+                onEnter: action('onEnter'),
+            }}
+        />
     ))
     .add('with debounce', () => (
         <GenericInputWrapper 
             { ...baseProps }
-            Component={StringInput.Debounced}
+            Component={StringInput}
             props={{
-                debounceBy: 500
+                debounce: 500
             }}
         />
     ))
@@ -59,7 +66,7 @@ storiesOf('StringInput', module)
             }}
         />
     ))
-    .add('disabled with message', () => (
+    .add('disabled, with message', () => (
         <GenericInputWrapper 
             { ...baseProps }
             startValue="I am disabled."
@@ -103,7 +110,7 @@ storiesOf('StringInput', module)
             }}
         />
     ))
-    .add('clearable with icon', () => (
+    .add('clearable, with icon', () => (
         <GenericInputWrapper 
             { ...baseProps }
             startValue="Clear me."
@@ -113,9 +120,54 @@ storiesOf('StringInput', module)
             }}
         />
     ))
-    .add('auto sized', () => (
-        <div>TO DO</div>
+    .add('inline', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            startValue="I'm inline."
+            props={{
+                inline: true,
+            }}
+        />
     ))
-    .add('auto sized with min width', () => (
-        <div>TO DO</div>
+    .add('inline, clearable', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            startValue="Clear me."
+            props={{
+                inline: true,
+                clearable: true,
+            }}
+        />
+    ))
+    .add('auto sized, with min width', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            startValue="Auto sized."
+            props={{
+                autoSize: true,
+                minWidth: 75,
+            }}
+        />
+    ))
+    .add('auto sized, inline, with placeholder', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+                placeholder: "Type away...",
+                autoSize: true,
+                inline: true,
+            }}
+        />
+    ))
+    .add('inline, debounced, auto sized, with icon', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            startValue="So much going on."
+            props={{
+                autoSize: true,
+                inline: true,
+                debounce: 500,
+                Icon: Icon.User
+            }}
+        />
     ))

@@ -17,3 +17,7 @@ body {
     padding: 20px;
     flex: 1;
 }
+
+.input-container:not(.--inline) {
+    width: 150px;
+}

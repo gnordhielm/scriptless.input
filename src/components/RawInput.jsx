@@ -1,10 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _noop from 'lodash/noop'
+import AutoSizeInput from 'components/AutoSizeInput'
+import { ENTER_KEY } from 'settings'
 
+const getWidth = container => {
+  console.log('getWidth', container);
+  setTimeout(() => {
+    console.log('getWidth', container);
+
+  })
+  
+}
+
+const getHandleKeyPress = onEnter => {
+  if (!onEnter) 
+    return _noop
+  else
+    return event => {
+      if (event.key === ENTER_KEY) 
+      {
+        onEnter()
+        event.stopPropagation()
+        event.preventDefault()
+      }
+    }
+}
+
+// DEV - must be function declaration to sustain ref
 const RawInput = ({
   autoComplete,
   autoFocus,
+  autoSize,
   disabled,
   readOnly,
   onChange,
@@ -12,28 +39,33 @@ const RawInput = ({
   type,
   onBlur,
   onFocus,
-  onKeyDown,
+  onEnter,
   placeholder,
   className,
-}) => (
-  <input
-    className={className}
-    type={type}
-    autoComplete={autoComplete.toString()}
-    autoFocus={autoFocus}
-    disabled={disabled}
-    onChange={event => {
-      onChange(event.target.value)
-    }}
-    onBlur={onBlur}
-    onFocus={onFocus}
-    onKeyDown={onKeyDown}
-    placeholder={placeholder}
-    spellCheck="false"
-    value={value}
-    readOnly={readOnly}
-  />
-)
+}) => {
+
+  const Component = autoSize ? AutoSizeInput : 'input'
+
+  return (
+    <Component
+      className={className}
+      type={type}
+      autoComplete={autoComplete.toString()}
+      autoFocus={autoFocus}
+      disabled={disabled}
+      onChange={event => {
+        onChange(event.target.value)
+      }}
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onKeyPress={getHandleKeyPress(onEnter)}
+      placeholder={placeholder}
+      spellCheck="false"
+      value={value}
+      readOnly={readOnly}
+    />
+  )
+}
 
 RawInput.displayName = "RawInput"
 RawInput.propTypes = {
@@ -50,10 +82,11 @@ RawInput.propTypes = {
   ]),
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  onKeyDown: PropTypes.func,
+  onEnter: PropTypes.func,
 }
 
 RawInput.defaultProps = {
+  autoSize: false,
   autoFocus: false,
   autoComplete: false,
   disabled: false,
@@ -61,7 +94,7 @@ RawInput.defaultProps = {
   type: "text",
   onBlur: _noop,
   onFocus: _noop,
-  onKeyDown: _noop,
+  onEnter: _noop,
 }
 
 export default RawInput
