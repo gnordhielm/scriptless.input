@@ -13,7 +13,7 @@ import RawTextArea from 'components/RawTextArea'
 
 const rootClassName = classNames(
   baseClass + "-container",
-  "--string",
+  "--text",
 )
 
 // TO DO - clearing should deliver focus to the child

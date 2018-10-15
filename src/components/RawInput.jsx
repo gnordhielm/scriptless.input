@@ -18,7 +18,7 @@ const getHandleKeyPress = onEnter => {
     }
 }
 
-const RawInput = ({
+const RawTextInput = ({
   autoComplete,
   autoFocus,
   autoSize,
@@ -32,14 +32,18 @@ const RawInput = ({
   onEnter,
   placeholder,
   className,
+  // TO DO - figure out where props are getting sanitized, is it here or in a parent component? I'm thinking parent, if type is going to be set by the parent, too
+  debounce,
+  ...rest,
 }) => {
 
   const Component = autoSize ? AutoSizeInput : 'input'
 
   return (
     <Component
+      { ...rest }
       className={className}
-      type="text"
+      type={type}
       autoComplete={autoComplete.toString()}
       autoFocus={autoFocus}
       disabled={disabled}
@@ -57,8 +61,8 @@ const RawInput = ({
   )
 }
 
-RawInput.displayName = "RawInput"
-RawInput.propTypes = {
+RawTextInput.displayName = "RawTextInput"
+RawTextInput.propTypes = {
   autoFocus: PropTypes.bool,
   autoComplete: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -71,7 +75,7 @@ RawInput.propTypes = {
   onEnter: PropTypes.func,
 }
 
-RawInput.defaultProps = {
+RawTextInput.defaultProps = {
   autoSize: false,
   autoFocus: false,
   autoComplete: false,
@@ -82,4 +86,4 @@ RawInput.defaultProps = {
   onEnter: _noop,
 }
 
-export default RawInput
+export default RawTextInput

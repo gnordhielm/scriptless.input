@@ -51,6 +51,7 @@ const StringInput = ({
   >
     <RawInput
       { ...rest }
+      type="text"
       disabled={!!disabled}
       className="__input"
     />
