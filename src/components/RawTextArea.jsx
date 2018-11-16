@@ -15,7 +15,7 @@ const getHandleKeyPress = (onEnter, onChange, value) => {
       if (event.key === ENTER_KEY) 
       {
         onChange(value + "\n")
-        onEnter()
+        onEnter(event)
         event.stopPropagation()
         event.preventDefault()
       }

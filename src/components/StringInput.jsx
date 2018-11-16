@@ -72,6 +72,11 @@ StringInput.displayName = "StringInput"
 StringInput.propTypes = {
   ...basicComponentProps.propTypes,
   ...basicInputProps.propTypes,
+  // delay repeated invocations of onChange
+  debounce: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]),
 }
 
 StringInput.defaultProps = {

@@ -56,6 +56,11 @@ TextInput.displayName = "TextInput"
 TextInput.propTypes = {
   ...basicComponentProps.propTypes,
   ...basicTextAreaProps.propTypes,
+  // delay repeated invocations of onChange
+  debounce: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]),
 }
 
 TextInput.defaultProps = {
