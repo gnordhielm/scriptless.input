@@ -6,6 +6,7 @@ export const propTypes = {
   renderOption: PropTypes.func,
   options: PropTypes.array.isRequired,
   getGroupedOptions: PropTypes.func,
+  
 }
 
 export const defaultProps = {

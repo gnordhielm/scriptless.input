@@ -18,7 +18,7 @@ const getHandleKeyPress = onEnter => {
     }
 }
 
-const RawTextInput = ({
+const RawInput = ({
   autoComplete,
   autoFocus,
   autoSize,
@@ -61,8 +61,8 @@ const RawTextInput = ({
   )
 }
 
-RawTextInput.displayName = "RawTextInput"
-RawTextInput.propTypes = {
+RawInput.displayName = "RawInput"
+RawInput.propTypes = {
   autoFocus: PropTypes.bool,
   autoComplete: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -75,7 +75,7 @@ RawTextInput.propTypes = {
   onEnter: PropTypes.func,
 }
 
-RawTextInput.defaultProps = {
+RawInput.defaultProps = {
   autoSize: false,
   autoFocus: false,
   autoComplete: false,
@@ -86,4 +86,4 @@ RawTextInput.defaultProps = {
   onEnter: _noop,
 }
 
-export default RawTextInput
+export default RawInput

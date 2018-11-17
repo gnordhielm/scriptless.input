@@ -1,0 +1,13 @@
+.dropdown__content.input-dropdown {
+    border-top: none;
+    width: calc(100% - 2px);
+
+    & > .__option {
+        padding: 2px 4px;
+        cursor: pointer;
+
+        &:hover {
+            background: lightgray;
+        }
+    }
+}

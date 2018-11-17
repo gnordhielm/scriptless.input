@@ -10,8 +10,8 @@ import SelectOneInput from 'components/SelectOneInput'
 const baseProps = {
     Component: SelectOneInput,
     reportChange: action('onChange'),
-    emptyValue: "",
-    startValue: "",
+    emptyValue: undefined,
+    startValue: undefined,
 }
 
 const options = [
@@ -25,6 +25,38 @@ const options = [
 storiesOf('SelectOneInput', module)
     .addDecorator(withKnobs)
     .add('basic', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options
+            }}
+        />
+    ))
+    .add('with no options', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options
+            }}
+        />
+    ))
+    .add('with all options filtered out', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options
+            }}
+        />
+    ))
+    .add('with all options filtered out and noun', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options
+            }}
+        />
+    ))
+    .add('with canAddOption', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
