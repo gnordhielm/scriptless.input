@@ -22,6 +22,7 @@ class GenericInputWrapper extends React.Component {
     const {
       Component,
       props,
+      children
     } = this.props
 
     return (
@@ -30,7 +31,7 @@ class GenericInputWrapper extends React.Component {
           { ...props }
           onChange={this.handleChange}
           value={this.state.value}
-        />
+        >{children}</Component>
       </div>
     )
   }

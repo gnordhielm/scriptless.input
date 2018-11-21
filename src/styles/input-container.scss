@@ -36,17 +36,17 @@
   }
 
   & > .__input,
+  & > .__input-value,
   & > .__text-area {
     flex: 1;
     min-width: 0;
     align-self: stretch;
+    font-size: $font-size;
   }
 
   & > .__input-value {
-    flex: 1;
-    min-width: 0;
-    align-self: stretch;
-    cursor: text;
+    cursor: pointer;
+    padding: $xs-size 0 $xs-size $s-size;
   }
 
   & > .__icon {
@@ -62,4 +62,12 @@
   //   flex: 0 0 auto;
   // }
 
+}
+
+.dropdown__trigger.--active .input-container {
+  &.--select-one {
+    & > .__icon {
+      opacity: 0;
+    }
+  }
 }

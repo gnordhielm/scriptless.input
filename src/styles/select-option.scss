@@ -1,0 +1,10 @@
+.select-option {
+
+    padding: 2px 4px;
+    cursor: pointer;
+
+    &.--has-focus,
+    &:hover {
+        background: lightgray;
+    }
+}

@@ -1,13 +1,23 @@
+
+
 .dropdown__content.input-dropdown {
     border-top: none;
     width: calc(100% - 2px);
 
-    & > .__option {
-        padding: 2px 4px;
-        cursor: pointer;
+    & > .__empty-message {
+        font-size: $s-font-size;
+        color: gray;
+        text-align: center;
+        padding: 4px;
+    }
 
-        &:hover {
-            background: lightgray;
+    & > .__divider {
+        font-size: $s-font-size;
+        color: gray;
+        padding: 4px;
+
+        &:not(:first-child) {
+            padding-top: 16px;
         }
     }
 }

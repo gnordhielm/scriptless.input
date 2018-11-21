@@ -6,6 +6,7 @@ import Icon from '@leiops/icon'
 
 import GenericInputWrapper from 'examples/GenericInputWrapper'
 import SelectOneInput from 'components/SelectOneInput'
+import SelectDivider from 'utils/SelectDivider'
 
 const baseProps = {
     Component: SelectOneInput,
@@ -22,6 +23,22 @@ const options = [
   "quux",
 ]
 
+const dividedOptions = [
+    new SelectDivider("Fruits"),
+    "Apple",
+    "Orange",
+    "Pear",
+    "Watermelon",
+    "Honeydew",
+    "Cantaloupe",
+    new SelectDivider("Vegetables"),
+    "Carrot",
+    "Broccoli",
+    "Sweet Pea",
+    "Parsnip",
+    "Sunchoke",
+]
+
 storiesOf('SelectOneInput', module)
     .addDecorator(withKnobs)
     .add('basic', () => (
@@ -36,26 +53,50 @@ storiesOf('SelectOneInput', module)
         <GenericInputWrapper 
             { ...baseProps }
             props={{
-              options
+              options: []
             }}
         />
     ))
-    .add('with all options filtered out', () => (
+    .add('with overflowing options', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
-              options
+              options: [
+                  ...options,
+                  "quuux",
+                  "quuuux",
+                  "quuuuux",
+                  "quuuuuux",
+                  "quuuuuuux",
+                  "quuuuuuuux",
+                  "quuuuuuuuux",
+                  "quuuuuuuuuux",
+                  "quuuuuuuuuuux",
+                  "quuuuuuuuuuuux",
+                  "quuuuuuuuuuuuux",
+              ]
             }}
         />
     ))
-    .add('with all options filtered out and noun', () => (
+    .add('with optionTerm', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
-              options
+              options,
+              optionTerm: "user",
             }}
         />
     ))
+    .add('with dividers', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options: dividedOptions,
+            }}
+        />
+    ))
+
+
     .add('with canAddOption', () => (
         <GenericInputWrapper 
             { ...baseProps }
@@ -65,14 +106,6 @@ storiesOf('SelectOneInput', module)
         />
     ))
     .add('with renderOption and renderValue', () => (
-        <GenericInputWrapper 
-            { ...baseProps }
-            props={{
-              options
-            }}
-        />
-    ))
-    .add('with getGroupedOptions', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
@@ -135,7 +168,7 @@ storiesOf('SelectOneInput', module)
             startValue="Clear me."
             props={{
                 options,
-                Icon: Icon.Search,
+                Icon: Icon.User,
                 clearable: true,
             }}
         />
