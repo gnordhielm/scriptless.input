@@ -11,6 +11,10 @@
         padding: 4px;
     }
 
+    & > .__create-option {
+        padding: 4px;
+    }
+
     & > .__divider {
         font-size: $s-font-size;
         color: gray;

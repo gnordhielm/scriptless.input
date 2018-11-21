@@ -11,6 +11,7 @@ import Dropdown from '@scriptless/dropdown'
 import * as basicComponentProps from 'utils/basicComponentProps'
 import * as basicInputProps from 'utils/basicInputProps'
 import * as selectInputProps from 'utils/selectInputProps'
+import getIsCreateTextEqualToOption from 'utils/getIsCreateTextEqualToOption'
 import isDefined from 'utils/isDefined'
 import { KEY } from 'utils/constants'
 import { baseClass } from 'settings'
@@ -41,6 +42,19 @@ const getNextValidOptionIndex = ({
     
   return startIndex
 
+}
+
+const getIsTextRenderedInOptions = ({
+  renderedOptions,
+  text,
+}) => {
+  if (!text || !renderedOptions.length)
+    return false
+
+  console.log(renderedOptions);
+
+  return false
+  
 }
 
 class SelectOneInput extends React.Component {
@@ -106,8 +120,6 @@ class SelectOneInput extends React.Component {
 
     return result
   }
-
-
 
   handleFocusInput = () => {
     this.setState(() => ({
@@ -238,11 +250,14 @@ class SelectOneInput extends React.Component {
       options,
       renderValue,
       renderOption,
+      renderDivider,
       value,
       onChange,
       optionTerm,
       filterOption,
       maxDropdownHeight,
+      canCreateOption,
+      resolveCreateTextToOption,
       ...rest,
     } = this.props
 
@@ -255,6 +270,23 @@ class SelectOneInput extends React.Component {
       !filteredOptions.length ?
         `No matching ${pluralize(0, optionTerm, null, true)}.` :
         undefined
+    
+    // DEV - is it okay to use index as key here? What if the options change and the filter text doesn't?
+    const renderedOptions = filteredOptions
+      .map((option, idx) => option instanceof SelectDivider ?
+        <div 
+          className="__divider" 
+          key={option.value}
+        >{renderDivider(option.value)}</div> :
+        <SelectOption 
+          key={idx + this.state.text}
+          onChoose={this.handleChange}
+          value={option}
+          hasFocus={this.state.focusedOptionIndex === idx}
+        >{renderOption(option)}</SelectOption>
+      )
+    
+    // TO DO - this is (probably) goot in 80% of cases, but there needs to be a way for a user to override this in props.
 
     return (
       <Dropdown
@@ -324,25 +356,25 @@ class SelectOneInput extends React.Component {
             overflow: "auto",
           }}
         >
+          {renderedOptions}
+          {(
+            canCreateOption && 
+            !!this.state.text &&
+            !getIsCreateTextEqualToOption({
+              options,
+              createText: this.state.text,
+              resolveCreateTextToOption,
+            })
+          ) &&
+            <div className="__create-option">
+              Create "{this.state.text}"
+            </div>
+          }
           {emptyMessage &&
             <div className="__empty-message">
               {emptyMessage}
             </div>
           }
-          {/* DEV - is it okay to use index as key here? What if the options change and the filter text doesn't? */}
-          {filteredOptions.map((option, idx) => option instanceof SelectDivider ?
-            <div className="__divider" key={option.value}>
-              {option.value}
-            </div> :
-            <SelectOption 
-              key={idx + this.state.text}
-              onChoose={this.handleChange}
-              value={option}
-              hasFocus={this.state.focusedOptionIndex === idx}
-            >
-              {renderOption(option)}
-            </SelectOption>
-          )}
         </Dropdown.Content>
       </Dropdown>
     )

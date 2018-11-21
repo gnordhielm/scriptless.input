@@ -95,16 +95,31 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
-
-
-    .add('with canAddOption', () => (
+    .add('with dividers and render divider', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
-              options
+              options: dividedOptions,
+              renderDivider: name => (
+                  <div>
+                    <span>Section: </span>
+                    <em>{name}</em>
+                  </div>
+              )
             }}
         />
     ))
+    .add('with canCreateOption', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+              options,
+              canCreateOption: true,
+            }}
+        />
+    ))
+
+
     .add('with renderOption and renderValue', () => (
         <GenericInputWrapper 
             { ...baseProps }
@@ -193,3 +208,13 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
+    // .add('stress test', () => (
+    //     <GenericInputWrapper 
+    //         { ...baseProps }
+    //         startValue="Auto sized."
+    //         props={{
+    //             autoSize: true,
+    //             minWidth: 75,
+    //         }}
+    //     />
+    // ))
