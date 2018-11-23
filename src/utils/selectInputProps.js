@@ -12,7 +12,7 @@ export const propTypes = {
   optionTerm: PropTypes.string,  
   filterOption: PropTypes.func,
   maxDropdownHeight: PropTypes.number,
-  canCreateOption: PropTypes.bool,
+  onCreateOption: PropTypes.func,
   resolveCreateTextToOption: PropTypes.func,
 }
 
@@ -24,5 +24,4 @@ export const defaultProps = {
   optionTerm: "option",
   filterOption: filterOption,
   maxDropdownHeight: 200,
-  canCreateOption: false,
 }

@@ -109,12 +109,12 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
-    .add('with canCreateOption', () => (
+    .add('with onCreateOption', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
               options,
-              canCreateOption: true,
+              onCreateOption: action('onCreateOption'),
             }}
         />
     ))

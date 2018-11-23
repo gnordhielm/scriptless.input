@@ -30,6 +30,13 @@ class GenericInputWrapper extends React.Component {
         <Component
           { ...props }
           onChange={this.handleChange}
+          onCreateOption={props.onCreateOption ? 
+            (newValue) => {
+              props.onCreateOption(newValue)
+              this.handleChange(newValue)
+            } : 
+            undefined
+          }
           value={this.state.value}
         >{children}</Component>
       </div>

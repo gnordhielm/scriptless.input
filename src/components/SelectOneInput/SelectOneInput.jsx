@@ -18,12 +18,14 @@ import { baseClass } from 'settings'
 import RawInput from 'components/RawInput'
 import SelectOption from 'components/SelectOption'
 import SelectDivider from 'utils/SelectDivider'
+import SelectCreateOption from 'utils/SelectCreateOption'
 
 const rootClassName = classNames(
   baseClass + "-container",
   "--select-one",
 )
 
+// TO DO - this doesn't know how to handle flipping back to the top or bottom on overflow, it needs to if I 'm going to fix the navigate up with keyboard bug
 const getNextValidOptionIndex = ({
   startIndex, 
   step,
@@ -44,19 +46,6 @@ const getNextValidOptionIndex = ({
 
 }
 
-const getIsTextRenderedInOptions = ({
-  renderedOptions,
-  text,
-}) => {
-  if (!text || !renderedOptions.length)
-    return false
-
-  console.log(renderedOptions);
-
-  return false
-  
-}
-
 class SelectOneInput extends React.Component {
 
   dropdown = React.createRef()
@@ -69,8 +58,18 @@ class SelectOneInput extends React.Component {
     focusedOptionIndex: null,
   }
 
+  getShouldOfferCreate = () => (
+    this.props.onCreateOption && 
+    !!this.state.text &&
+    !getIsCreateTextEqualToOption({
+      options: this.props.options,
+      createText: this.state.text,
+      resolveCreateTextToOption: this.props.resolveCreateTextToOption,
+    })
+  )
+
   // TO DO - optimize. The wastefulness of this. Good lord.
-  getFilteredOptions = () => {
+  getResolvedOptions = () => {
 
     const dividers = []
     const groups = {}
@@ -94,29 +93,32 @@ class SelectOneInput extends React.Component {
 
     })
 
+    let result = []
+
     if (!dividers.length)
-      return toGroup
+      result = toGroup
+    else
+      dividers.forEach((divider, index) => {
+        const groupedOptions = groups[divider.value] || []
 
-    const result = []
+        if (index === (dividers.length - 1) && toGroup.length)
+        {
+          result.push(divider)
+          toGroup.forEach(option => {
+            result.push(option)
+          })
+        }
+        else if (groupedOptions.length)
+        {
+          result.push(divider)
+          groupedOptions.forEach(option => {
+            result.push(option)
+          })
+        }
+      })
 
-    dividers.forEach((divider, index) => {
-      const groupedOptions = groups[divider.value] || []
-
-      if (index === (dividers.length - 1) && toGroup.length)
-      {
-        result.push(divider)
-        toGroup.forEach(option => {
-          result.push(option)
-        })
-      }
-      else if (groupedOptions.length)
-      {
-        result.push(divider)
-        groupedOptions.forEach(option => {
-          result.push(option)
-        })
-      }
-    })
+    if (this.getShouldOfferCreate())
+      result.push(new SelectCreateOption(this.state.text))
 
     return result
   }
@@ -168,6 +170,17 @@ class SelectOneInput extends React.Component {
     }))
   }
 
+  handleCreateOption = newOption => {
+    this.props.onCreateOption(newOption)
+
+    this.setState(() => ({
+      dropdownHasFocus: false,
+      inputHasFocus: false,
+      text: "",
+      focusedOptionIndex: null,
+    }))
+  }
+
   handleKeyDown = event => {
 
     const { key } = event
@@ -177,9 +190,19 @@ class SelectOneInput extends React.Component {
     else if (key === KEY.ARROW_UP)
       this.handleNavigateUp()  
     else if (key === KEY.ENTER)
-      this.handleChange(
-        this.getFilteredOptions()[this.state.focusedOptionIndex]
-      )
+    {
+
+      if (typeof this.state.focusedOptionIndex !== 'number')
+        return
+
+      const value = this.getResolvedOptions()[this.state.focusedOptionIndex]
+      if (value instanceof SelectCreateOption)
+        this.handleCreateOption(
+          this.props.resolveCreateTextToOption(value.value)
+        )
+      else
+        this.handleChange(value)
+    }
     else
       return
 
@@ -190,11 +213,11 @@ class SelectOneInput extends React.Component {
 
   handleNavigateDown = () => {
     const { focusedOptionIndex } = this.state
-    const options = this.getFilteredOptions()
+    const options = this.getResolvedOptions()
     if (!options.length) return
 
     if (focusedOptionIndex === null ||
-      focusedOptionIndex === options.length - 1)
+      focusedOptionIndex >= options.length - 1)
         this.setState(() => ({ 
           focusedOptionIndex: getNextValidOptionIndex({
             startIndex: 0,
@@ -215,11 +238,11 @@ class SelectOneInput extends React.Component {
 
   handleNavigateUp = () => {
     const { focusedOptionIndex } = this.state
-    const options = this.getFilteredOptions()
+    const options = this.getResolvedOptions()
     if (!options.length) return
 
     if (focusedOptionIndex === null ||
-      focusedOptionIndex === 0)
+      focusedOptionIndex <= 0)
         this.setState(() => ({ 
           focusedOptionIndex: getNextValidOptionIndex({
             startIndex: options.length - 1,
@@ -235,6 +258,38 @@ class SelectOneInput extends React.Component {
           options,
         }) 
       }))
+
+  }
+
+  renderOption = (option, index) => {
+    // DEV - is it okay to use index as key here? What if the options change and the filter text doesn't?
+
+    if (option instanceof SelectDivider)
+      return (
+        <div 
+          className="__divider" 
+          key={option.value}
+        >{this.props.renderDivider(option.value)}</div>
+      )
+
+    if (option instanceof SelectCreateOption)
+      return (
+        <SelectOption 
+          key={index + this.state.text}
+          onChoose={this.handleCreateOption}
+          value={this.props.resolveCreateTextToOption(option.value)}
+          hasFocus={this.state.focusedOptionIndex === index}
+        >Create "{option.value}"</SelectOption>
+      )
+
+    return (
+      <SelectOption 
+        key={index + this.state.text}
+        onChoose={this.handleChange}
+        value={option}
+        hasFocus={this.state.focusedOptionIndex === index}
+      >{this.props.renderOption(option)}</SelectOption>
+    )
 
   }
 
@@ -256,12 +311,12 @@ class SelectOneInput extends React.Component {
       optionTerm,
       filterOption,
       maxDropdownHeight,
-      canCreateOption,
+      onCreateOption,
       resolveCreateTextToOption,
       ...rest,
     } = this.props
 
-    const filteredOptions = this.getFilteredOptions()
+    const filteredOptions = this.getResolvedOptions()
     const shouldRenderInput = value === undefined ||
       this.state.dropdownHasFocus
 
@@ -270,23 +325,8 @@ class SelectOneInput extends React.Component {
       !filteredOptions.length ?
         `No matching ${pluralize(0, optionTerm, null, true)}.` :
         undefined
-    
-    // DEV - is it okay to use index as key here? What if the options change and the filter text doesn't?
-    const renderedOptions = filteredOptions
-      .map((option, idx) => option instanceof SelectDivider ?
-        <div 
-          className="__divider" 
-          key={option.value}
-        >{renderDivider(option.value)}</div> :
-        <SelectOption 
-          key={idx + this.state.text}
-          onChoose={this.handleChange}
-          value={option}
-          hasFocus={this.state.focusedOptionIndex === idx}
-        >{renderOption(option)}</SelectOption>
-      )
-    
-    // TO DO - this is (probably) goot in 80% of cases, but there needs to be a way for a user to override this in props.
+
+    // TO DO - this is (probably) good in 80% of cases, but there needs to be a way for a user to override this in props.
 
     return (
       <Dropdown
@@ -356,20 +396,7 @@ class SelectOneInput extends React.Component {
             overflow: "auto",
           }}
         >
-          {renderedOptions}
-          {(
-            canCreateOption && 
-            !!this.state.text &&
-            !getIsCreateTextEqualToOption({
-              options,
-              createText: this.state.text,
-              resolveCreateTextToOption,
-            })
-          ) &&
-            <div className="__create-option">
-              Create "{this.state.text}"
-            </div>
-          }
+          {filteredOptions.map(this.renderOption)}
           {emptyMessage &&
             <div className="__empty-message">
               {emptyMessage}
