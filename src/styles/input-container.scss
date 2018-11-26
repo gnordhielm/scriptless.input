@@ -1,8 +1,18 @@
+
+
 .input-container {
   border: $border;
   display: flex;
   color: $darkest;
   align-items: center;
+
+  &.--select-one {
+    .input-trigger {
+      color: $darkest;
+      display: flex;
+      align-items: center;
+    }
+  }
 
   &.--inline {
     display: inline-flex;
@@ -10,18 +20,18 @@
     border-bottom: $border;
     margin: 0 $s-size;
 
-    & > ._input {
+    ._input {
       padding: $xs-size 0;
     }
 
-    & > ._icon {
+    ._icon {
       padding: 0;
     }
 
     &.--with-icon {
 
       // TO DO - this creates a possible bug where the icon sits on top of the input value, fix that
-      // & > ._icon {
+      // ._icon {
       //   margin-left: -$font-size;
       // }
 
@@ -39,30 +49,31 @@
     fill: $neutral;
   }
 
-  & > ._input,
-  & > ._input-value,
-  & > .__text-area {
+
+  ._input,
+  ._input-value,
+  ._text-area {
     flex: 1;
     min-width: 0;
     align-self: stretch;
     font-size: $font-size;
   }
 
-  & > ._input-value {
+  ._input-value {
     cursor: pointer;
     padding: $xs-size 0 $xs-size $s-size;
   }
 
-  & > ._icon {
+  ._icon {
     flex: 0 0 auto;
   }
 
-  &.--read-only > ._input, 
-  &.--read-only > ._icon, 
-  &.--disabled > ._input-value, 
-  &.--read-only > ._input-value, 
-  &.--read-only > ._input-value, 
-  &.--read-only > .__text-area {
+  &.--read-only ._input, 
+  &.--read-only ._icon, 
+  &.--disabled ._input-value, 
+  &.--read-only ._input-value, 
+  &.--read-only ._input-value, 
+  &.--read-only ._text-area {
     cursor: default;
   }
 

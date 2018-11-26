@@ -46,7 +46,7 @@ const TextInput = ({
     <RawTextArea
       { ...rest }
       disabled={!!disabled}
-      className="__text-area"
+      className="_text-area"
     />
   </div>
 )
