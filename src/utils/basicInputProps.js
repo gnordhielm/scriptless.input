@@ -10,7 +10,7 @@ export const propTypes = {
     PropTypes.bool,
     PropTypes.string,
   ]),
-  // a component to render as an icon, must have the class __icon
+  // a component to render as an icon, must have the class _icon
   Icon: PropTypes.func,
 
   readOnly: PropTypes.bool,
@@ -32,4 +32,7 @@ export const defaultProps = {
   disabled: false,
   readOnly: false,
   inline: false,
+
+  onFocus: () => undefined,
+  onBlur: () => undefined,
 }

@@ -10,22 +10,26 @@
     border-bottom: $border;
     margin: 0 $s-size;
 
-    & > .__input {
+    & > ._input {
       padding: $xs-size 0;
     }
 
-    & > .__icon {
+    & > ._icon {
       padding: 0;
     }
 
     &.--with-icon {
 
       // TO DO - this creates a possible bug where the icon sits on top of the input value, fix that
-      // & > .__icon {
+      // & > ._icon {
       //   margin-left: -$font-size;
       // }
 
     }
+  }
+
+  &.--read-only {
+    cursor: default;
   }
 
   &.--disabled {
@@ -35,8 +39,8 @@
     fill: $neutral;
   }
 
-  & > .__input,
-  & > .__input-value,
+  & > ._input,
+  & > ._input-value,
   & > .__text-area {
     flex: 1;
     min-width: 0;
@@ -44,30 +48,22 @@
     font-size: $font-size;
   }
 
-  & > .__input-value {
+  & > ._input-value {
     cursor: pointer;
     padding: $xs-size 0 $xs-size $s-size;
   }
 
-  & > .__icon {
+  & > ._icon {
     flex: 0 0 auto;
   }
 
-  &.--read-only > .__input, 
+  &.--read-only > ._input, 
+  &.--read-only > ._icon, 
+  &.--disabled > ._input-value, 
+  &.--read-only > ._input-value, 
+  &.--read-only > ._input-value, 
   &.--read-only > .__text-area {
     cursor: default;
   }
 
-  // &.--auto-size > .__input {
-  //   flex: 0 0 auto;
-  // }
-
-}
-
-.dropdown__trigger.--active .input-container {
-  &.--select-one {
-    & > .__icon {
-      opacity: 0;
-    }
-  }
 }

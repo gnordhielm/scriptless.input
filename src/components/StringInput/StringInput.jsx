@@ -53,15 +53,15 @@ const StringInput = ({
       { ...rest }
       type="text"
       disabled={!!disabled}
-      className="__input"
+      className="_input"
     />
     {(clearable && rest.value) ?
       <Icon.Clear 
-        className="__icon --control"
+        className="_icon --control"
         onClick={() => rest.onChange()}
       /> : CustomIcon ?
         <CustomIcon 
-          className="__icon"
+          className="_icon"
         /> : null
     }
   </div>

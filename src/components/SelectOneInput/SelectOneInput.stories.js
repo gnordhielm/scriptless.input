@@ -118,17 +118,21 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
-
-
     .add('with renderOption and renderValue', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
-              options
+              options,
+              renderOption: option => (
+                <span>> {option}</span>
+              ),
+              renderValue: option => (
+                <span>✨ {option}</span>
+              ),
             }}
         />
     ))
-    .add('auto focused', () => (
+    .add('with autoFocus', () => (
         <GenericInputWrapper 
             { ...baseProps }
             props={{
@@ -154,7 +158,7 @@ storiesOf('SelectOneInput', module)
             startValue="I am disabled."
             props={{
                 options,
-                disabled: "You do not have edit permissions."
+                disabled: "You do not have edit permissions.",
             }}
         />
     ))
@@ -188,6 +192,8 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
+
+
     .add('inline', () => (
         <GenericInputWrapper 
             { ...baseProps }
@@ -198,6 +204,7 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
+    
     .add('auto sized, with min width', () => (
         <GenericInputWrapper 
             { ...baseProps }

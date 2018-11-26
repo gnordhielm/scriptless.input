@@ -25,6 +25,8 @@ const rootClassName = classNames(
   "--select-one",
 )
 
+// TO DO - tabbing away should close the dropdown and fire onBlur
+
 // TO DO - this doesn't know how to handle flipping back to the top or bottom on overflow, it needs to if I 'm going to fix the navigate up with keyboard bug
 const getNextValidOptionIndex = ({
   startIndex, 
@@ -124,6 +126,9 @@ class SelectOneInput extends React.Component {
   }
 
   handleFocusInput = () => {
+
+    if (this.props.disabled || this.props.readOnly) return
+
     this.setState(() => ({
       inputHasFocus: true
     }))
@@ -136,6 +141,11 @@ class SelectOneInput extends React.Component {
   }
 
   handleShowDropdown = () => {
+
+    if (this.props.disabled || this.props.readOnly) return
+
+    this.props.onFocus()
+
     this.setState(() => ({
       dropdownHasFocus: true
     }))
@@ -144,6 +154,8 @@ class SelectOneInput extends React.Component {
   handleHideDropdown = () => {
 
     if (this.state.inputHasFocus) return
+
+    this.props.onBlur()
 
     this.setState(() => ({
       dropdownHasFocus: false,
@@ -167,6 +179,14 @@ class SelectOneInput extends React.Component {
       inputHasFocus: false,
       text: "",
       focusedOptionIndex: null,
+    }))
+  }
+
+  handleClear = () => {
+    this.props.onChange()
+
+    this.setState(() => ({
+      dropdownHasFocus: true,
     }))
   }
 
@@ -320,6 +340,8 @@ class SelectOneInput extends React.Component {
     const shouldRenderInput = value === undefined ||
       this.state.dropdownHasFocus
 
+    const shouldRenderDropdown = this.state.dropdownHasFocus
+
     const emptyMessage = !options.length ?
       `No ${pluralize(0, optionTerm, null, true)}.` :
       !filteredOptions.length ?
@@ -331,32 +353,30 @@ class SelectOneInput extends React.Component {
     return (
       <Dropdown
         ref={this.dropdown}
-        hasFocus={this.state.dropdownHasFocus}
+        hasFocus={shouldRenderDropdown}
         onHide={this.handleHideDropdown}
         onShow={this.handleShowDropdown}
+        className={classNames(
+          rootClassName,
+          className,
+          disabled && "--disabled",
+          rest.readOnly && "--read-only",
+          inline && "--inline",
+          ((clearable && rest.value) || isDefined(CustomIcon)) &&
+          "--with-icon",
+          rest.autoSize && "--auto-size",
+        )}
+        style={{
+          width: rest.autoSize ? 'min-content' : undefined,
+          minWidth,
+          maxWidth,
+        }}
+        title={
+          (disabled && typeof disabled === 'string') ?
+            disabled : undefined
+        }
       >
-        <Dropdown.Trigger>
-          <div
-            className={classNames(
-              rootClassName,
-              className,
-              disabled && "--disabled",
-              rest.readOnly && "--read-only",
-              inline && "--inline",
-              ((clearable && rest.value) || isDefined(CustomIcon)) &&
-              "--with-icon",
-              rest.autoSize && "--auto-size",
-            )}
-            style={{
-              width: rest.autoSize ? 'min-content' : undefined,
-              minWidth,
-              maxWidth,
-            }}
-            title={
-              (disabled && typeof disabled === 'string') ?
-                disabled : undefined
-            }
-          >
+        <Dropdown.Trigger className="input-trigger">
             {shouldRenderInput ?
               <RawInput
                 {...rest}
@@ -365,29 +385,29 @@ class SelectOneInput extends React.Component {
                 onChange={this.handleTextChange}
                 type="text"
                 disabled={!!disabled}
-                className="__input"
+                className="_input"
                 onFocus={this.handleFocusInput}
                 onBlur={this.handleBlurInput}
                 onKeyDown={this.handleKeyDown}
               /> : <div
-                className="__input-value"
+                className="_input-value"
               >
                 {renderValue(value)}
               </div>
             }
-            {(clearable && value) ?
-              <Icon.Clear
-                className="__icon --control"
-                onClick={() => onChange()}
-              /> : CustomIcon ?
-                <CustomIcon
-                  className="__icon"
-                /> :
-                <Icon.DropDown
-                  className="__icon"
-                />
-            }
-          </div>
+            {!shouldRenderDropdown && (
+              (clearable && value) ?
+                <Icon.Clear
+                  className="_icon --control"
+                  onClick={this.handleClear}
+                /> : CustomIcon ?
+                  <CustomIcon
+                    className="_icon"
+                  /> :
+                  <Icon.DropDown
+                    className="_icon"
+                  />
+            )}
         </Dropdown.Trigger>
         <Dropdown.Content 
           className="input-dropdown" 
