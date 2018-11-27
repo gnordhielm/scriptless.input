@@ -5,6 +5,7 @@
   display: flex;
   color: $darkest;
   align-items: center;
+  width: 150px;
 
   &.--select-one {
     .input-trigger {
@@ -42,7 +43,8 @@
     cursor: default;
   }
 
-  &.--disabled {
+  &.--disabled,
+  &.--disabled.--select-one .input-trigger {
     cursor: default;
     border-color: $neutral;
     color: $neutral;
@@ -62,6 +64,7 @@
   ._input-value {
     cursor: pointer;
     padding: $xs-size 0 $xs-size $s-size;
+    white-space: nowrap;
   }
 
   ._icon {
@@ -73,8 +76,10 @@
   &.--disabled ._input-value, 
   &.--read-only ._input-value, 
   &.--read-only ._input-value, 
-  &.--read-only ._text-area {
+  &.--read-only ._text-area,
+  &.--read-only.--select-one .input-trigger {
     cursor: default;
+    user-select: text;
   }
 
 }

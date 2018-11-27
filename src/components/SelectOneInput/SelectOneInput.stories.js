@@ -177,7 +177,7 @@ storiesOf('SelectOneInput', module)
             { ...baseProps }
             props={{
                 options,
-                placeholder: "Enter text..."
+                placeholder: "Search options..."
             }}
         />
     ))
@@ -205,13 +205,15 @@ storiesOf('SelectOneInput', module)
         />
     ))
     
-    .add('auto sized, with min width', () => (
+    .add('auto sized, clearable, with min width', () => (
         <GenericInputWrapper 
             { ...baseProps }
             startValue="Auto sized."
             props={{
+                options,
                 autoSize: true,
-                minWidth: 75,
+                minWidth: 35,
+                clearable: true,
             }}
         />
     ))
