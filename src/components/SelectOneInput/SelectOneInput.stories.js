@@ -1,12 +1,12 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { withKnobs, text } from '@storybook/addon-knobs'
+import { withKnobs } from '@storybook/addon-knobs'
 import Icon from '@leiops/icon'
 
+import { options, dividedOptions } from 'utils/storyProps'
 import GenericInputWrapper from 'examples/GenericInputWrapper'
 import SelectOneInput from 'components/SelectOneInput'
-import SelectDivider from 'utils/SelectDivider'
 
 const baseProps = {
     Component: SelectOneInput,
@@ -14,30 +14,6 @@ const baseProps = {
     emptyValue: undefined,
     startValue: undefined,
 }
-
-const options = [
-  "foo",
-  "bar",
-  "baz",
-  "qux",
-  "quux",
-]
-
-const dividedOptions = [
-    new SelectDivider("Fruits"),
-    "Apple",
-    "Orange",
-    "Pear",
-    "Watermelon",
-    "Honeydew",
-    "Cantaloupe",
-    new SelectDivider("Vegetables"),
-    "Carrot",
-    "Broccoli",
-    "Sweet Pea",
-    "Parsnip",
-    "Sunchoke",
-]
 
 storiesOf('SelectOneInput', module)
     .addDecorator(withKnobs)
