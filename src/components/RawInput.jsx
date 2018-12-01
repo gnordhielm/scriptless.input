@@ -69,7 +69,10 @@ RawInput.propTypes = {
   readOnly: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onEnter: PropTypes.func,
@@ -84,6 +87,7 @@ RawInput.defaultProps = {
   onBlur: _noop,
   onFocus: _noop,
   onEnter: _noop,
+  value: '',
 }
 
 export default RawInput

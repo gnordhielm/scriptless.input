@@ -1,13 +1,17 @@
 
 
 .input-container {
-  border: $border;
   display: flex;
   color: $darkest;
   align-items: center;
   width: 150px;
 
-  &.--select-one {
+  &:not(.--chained) {
+    border: $border;
+  }
+
+  &.--select-one,
+  &.--select-many {
     .input-trigger {
       color: $darkest;
       display: flex;
@@ -44,7 +48,8 @@
   }
 
   &.--disabled,
-  &.--disabled.--select-one .input-trigger {
+  &.--disabled.--select-one .input-trigger,
+  &.--disabled.--select-many .input-trigger {
     cursor: default;
     border-color: $neutral;
     color: $neutral;
@@ -77,9 +82,30 @@
   &.--read-only ._input-value, 
   &.--read-only ._input-value, 
   &.--read-only ._text-area,
-  &.--read-only.--select-one .input-trigger {
+  &.--read-only.--select-one .input-trigger,
+  &.--read-only.--select-many .input-trigger {
     cursor: default;
     user-select: text;
+  }
+
+  &.--chained {
+    width: initial;
+
+    &.--trigger {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    & > .__value {
+      display: flex;
+      color: $darkest;
+      align-items: center;
+      border: $border;
+      padding: $xs-size $s-size;
+      &:not(:last-child) {
+        margin-right: $xs-size;
+      }
+    }
   }
 
 }
