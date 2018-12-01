@@ -51,12 +51,12 @@ storiesOf('ChainedInput', module)
             }}
         >{basicChildren}</GenericInputWrapper>
     ))
-    .add('inline', () => (
-        <GenericInputWrapper 
-            { ...baseProps }
-            props={{
-                renderTrigger: () => "Trigger",
-                inline: true,
-            }}
-        >{basicChildren}</GenericInputWrapper>
-    ))
+    // .add('inline', () => (
+    //     <GenericInputWrapper 
+    //         { ...baseProps }
+    //         props={{
+    //             renderTrigger: () => "Trigger",
+    //             inline: true,
+    //         }}
+    //     >{basicChildren}</GenericInputWrapper>
+    // ))

@@ -14,6 +14,14 @@ class ChainedInput extends React.Component {
 
     state = _cloneDeep(initialState)
 
+    getHasCompleteValue = () => {
+        return this.props.children.length === 
+            Object
+                .values(this.state.values)
+                .filter(_ => _)
+                .length
+    }
+
     getHandleChange = index => {
         return newValue => {
             this.setState(prevState => ({
@@ -22,7 +30,20 @@ class ChainedInput extends React.Component {
                     [index]: newValue,
                 },
                 renderToIndex: index + 1,
-            }))
+            }), () => {
+                if (this.getHasCompleteValue())
+                {
+                    const value = []
+                    Object
+                        .keys(this.state.values)
+                        .sort((a,b) => parseInt(a, 10) - parseInt(b, 10))
+                        .forEach(key => {
+                            value.push(this.state.values[key])
+                        })
+
+                    this.props.onChange(value)
+                }
+            })
         }
     }
 
@@ -67,10 +88,6 @@ class ChainedInput extends React.Component {
                     {this.props.renderTrigger()}
                 </div>
             )
-
-        // const hasCompleteValue = this.props.children.length === Object.values(this.state.values).filter(val => val).length
-
-        // console.log('hasCompleteValue', hasCompleteValue);
         
         return (
             <div className="input-container --chained">
@@ -94,6 +111,9 @@ class ChainedInput extends React.Component {
                         onBlur: this.handleBlur,
                     })
                 })}
+                {/* {this.getHasCompleteValue() &&
+                    <Icon.Clear />
+                } */}
             </div>
         )
     }
