@@ -15,7 +15,9 @@ class ChainedInput extends React.Component {
     state = _cloneDeep(initialState)
 
     getHasCompleteValue = () => {
-        return this.props.children.length === 
+        return (Array.isArray(this.props.children) ? 
+            this.props.children.length : 1
+        ) === 
             Object
                 .values(this.state.values)
                 .filter(_ => _)
@@ -88,10 +90,14 @@ class ChainedInput extends React.Component {
                     {this.props.renderTrigger()}
                 </div>
             )
-        
+
+        const normalizedChildren = Array.isArray(this.props.children) ?
+                this.props.children :
+                [ this.props.children ]
+
         return (
             <div className="input-container --chained">
-                {this.props.children.map((child, index) => {
+                {normalizedChildren.map((child, index) => {
 
                     if (index > this.state.renderToIndex)
                         return null
@@ -129,7 +135,10 @@ ChainedInput.propTypes = {
 
     // inline: PropTypes.bool,
     
-    children: PropTypes.arrayOf(PropTypes.func).isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.arrayOf(PropTypes.func),
+    ]).isRequired,
     // a function for rendering the button which opens the input chain
     renderTrigger: PropTypes.func.isRequired,
     // control value renders per index

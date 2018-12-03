@@ -51,6 +51,20 @@ storiesOf('ChainedInput', module)
             }}
         >{basicChildren}</GenericInputWrapper>
     ))
+    .add('single child', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+                renderTrigger: () => "Trigger"
+            }}
+        >{({ onCompleteChange, onIncompleteChange, ...rest }) => (
+            <SelectOneInput
+                Icon={Icon.User}
+                options={options}
+                { ...rest }
+            />
+        )}</GenericInputWrapper>
+    ))
     // .add('inline', () => (
     //     <GenericInputWrapper 
     //         { ...baseProps }
