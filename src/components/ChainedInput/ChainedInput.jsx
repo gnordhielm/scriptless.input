@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _cloneDeep from 'lodash/cloneDeep'
-import { Object } from 'es6-shim';
 
 const initialState = {
     values: {},
@@ -9,6 +8,7 @@ const initialState = {
     renderToIndex: 0,
     hasFocus: false,
 }
+// TO DO - it should be easier to change the child inputs at runtime - this means calling an onChange after each input is submitted
 
 class ChainedInput extends React.Component {
 
@@ -125,9 +125,9 @@ ChainedInput.propTypes = {
     // if a chained input is sequential, clearing a value up the chain will clear all subsequent values
     // sequential: PropTypes.bool,
     // can the composite value be cleared?
-    clearable: PropTypes.bool,
+    // clearable: PropTypes.bool,
 
-    inline: PropTypes.bool,
+    // inline: PropTypes.bool,
     
     children: PropTypes.arrayOf(PropTypes.func).isRequired,
     // a function for rendering the button which opens the input chain
