@@ -1,0 +1,123 @@
+.input-container ._icon {
+  height: 16px;
+  width: 16px;
+  padding-right: 3px; }
+  .input-container ._icon.\--control {
+    cursor: pointer; }
+
+.input-container {
+  display: flex;
+  color: black;
+  align-items: center;
+  width: 150px; }
+  .input-container:not(.\--chained) {
+    border: 1px solid black; }
+  .input-container.\--select-one .input-trigger, .input-container.\--select-many .input-trigger {
+    color: black;
+    display: flex;
+    align-items: center; }
+  .input-container.\--inline {
+    display: inline-flex;
+    border: 0;
+    border-bottom: 1px solid black;
+    margin: 0 5px; }
+    .input-container.\--inline ._input {
+      padding: 3px 0; }
+    .input-container.\--inline ._icon {
+      padding: 0; }
+  .input-container.\--read-only {
+    cursor: default; }
+  .input-container.\--disabled,
+  .input-container.\--disabled.\--select-one .input-trigger,
+  .input-container.\--disabled.\--select-many .input-trigger {
+    cursor: default;
+    border-color: gray;
+    color: gray;
+    fill: gray; }
+  .input-container ._input,
+  .input-container ._input-value,
+  .input-container ._text-area {
+    flex: 1;
+    min-width: 0;
+    align-self: stretch;
+    font-size: 16px; }
+  .input-container ._input-value {
+    cursor: pointer;
+    padding: 3px 0 3px 5px;
+    white-space: nowrap; }
+  .input-container ._icon {
+    flex: 0 0 auto; }
+  .input-container.\--read-only ._input,
+  .input-container.\--read-only ._icon,
+  .input-container.\--disabled ._input-value,
+  .input-container.\--read-only ._input-value,
+  .input-container.\--read-only ._input-value,
+  .input-container.\--read-only ._text-area,
+  .input-container.\--read-only.\--select-one .input-trigger,
+  .input-container.\--read-only.\--select-many .input-trigger {
+    cursor: default;
+    user-select: text; }
+  .input-container.\--chained {
+    width: initial; }
+    .input-container.\--chained.\--trigger {
+      cursor: pointer;
+      user-select: none; }
+    .input-container.\--chained > .__value {
+      display: flex;
+      color: black;
+      align-items: center;
+      border: 1px solid black;
+      padding: 3px 5px; }
+      .input-container.\--chained > .__value:not(:last-child) {
+        margin-right: 3px; }
+
+.dropdown__content.input-dropdown {
+  width: 100%;
+  margin-left: -1px;
+  min-width: min-content; }
+  .dropdown__content.input-dropdown > .__empty-message {
+    font-size: 14px;
+    color: gray;
+    text-align: center;
+    padding: 4px; }
+  .dropdown__content.input-dropdown > .__create-option {
+    padding: 4px; }
+  .dropdown__content.input-dropdown > .__divider {
+    font-size: 14px;
+    color: gray;
+    padding: 4px; }
+    .dropdown__content.input-dropdown > .__divider:not(:first-child) {
+      padding-top: 16px; }
+
+.input-container ._input {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  padding: 3px 0 3px 5px; }
+
+.input-container > .__text-area {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  margin: 3px 5px;
+  resize: vertical;
+  width: 100%;
+  white-space: pre-line; }
+
+.select-option {
+  padding: 2px 4px;
+  cursor: pointer; }
+  .select-option.\--has-focus, .select-option:hover {
+    background: lightgray; }
+
+.input-trigger.dropdown__trigger {
+  display: block;
+  width: 100%;
+  height: 100%; }
+

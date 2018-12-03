@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 process.noDeprecation = true
 
@@ -23,7 +24,8 @@ module.exports = {
       {
         test: /\.s?css$/,
         use: [
-          'style-loader', 
+          process.env.NODE_ENV === 'production' ?
+                MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
           'sass-loader', 
         ],
@@ -31,6 +33,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new MiniCssExtractPlugin({
+        filename: 'style.css',
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
