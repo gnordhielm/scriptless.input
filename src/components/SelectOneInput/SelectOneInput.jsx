@@ -25,6 +25,8 @@ const rootClassName = classNames(
   "--select-one",
 )
 
+// TO DO - hitting enter when there is only one option should select it automatically
+
 // TO DO - tabbing away should close the dropdown and fire onBlur
 
 // TO DO - this doesn't know how to handle flipping back to the top or bottom on overflow, it needs to if I 'm going to fix the navigate up with keyboard bug

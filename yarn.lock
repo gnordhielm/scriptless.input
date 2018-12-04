@@ -815,15 +815,16 @@
   dependencies:
     uuid "^3.1.0"
 
-"@scriptless/dropdown@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@scriptless/dropdown/-/dropdown-1.0.0-alpha.5.tgz#fdcddca57d6bf45fdb5247176db958d598686492"
-  integrity sha512-VKa4OV5E0LfG0ENBsQD26bs5GM3Q/ARyZLs2a1pmzY5VIdhGwad1Otde7xUuAJg3YgEZcwtPakgEfvx7ajw/Xg==
+"@scriptless/dropdown@^1.0.0-alpha.6":
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@scriptless/dropdown/-/dropdown-1.0.0-alpha.6.tgz#e66b76d94cda9cdc8efe4f869921f6aeecbef204"
+  integrity sha512-1AGg0TCbAj3zaorzIqmTh8VGCNt8H9F4xpPDOE5vgdSjdliBd5zf5F8Pgh2tl4nhQ4FPoPdHERIYgU6e2+CcWg==
   dependencies:
     "@leiops/helpers" "^1.3.0"
     "@sambego/storybook-state" "^1.3.1"
     babel-plugin-transform-react-remove-prop-types "^0.4.14"
     lodash.debounce "^4.0.8"
+    mini-css-extract-plugin "^0.4.5"
 
 "@storybook/addon-actions@4.0.0-alpha.24":
   version "4.0.0-alpha.24"

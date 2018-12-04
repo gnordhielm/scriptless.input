@@ -1,3 +1,4 @@
+import '@scriptless/dropdown/dist/style.css'
 import 'styles/index.scss'
 
 // TO DO - can this be automated in some way? just go through all components, strip the word input off where it appears, then export them?
