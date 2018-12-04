@@ -1,3 +1,4 @@
+// DEV - maybe we should expect the dropdown library as a peer dependency?
 import '@scriptless/dropdown/dist/style.css'
 import 'styles/index.scss'
 
