@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import _noop from 'lodash/noop'
+import _isEqual from 'lodash/isEqual'
 import {
   classNames,
   pluralize,
@@ -24,6 +25,8 @@ const rootClassName = classNames(
   baseClass + "-container",
   "--select-many",
 )
+
+// TO DO - hitting enter when there is only one option should select it automatically
 
 // TO DO - tabbing away should close the dropdown and fire onBlur
 
@@ -90,7 +93,10 @@ class SelectManyInput extends React.Component {
         dividers.push(option)
         lastGroup = option.value
       }
-      else if (this.props.filterOption(option, this.state.text))
+      else if (
+        this.props.filterOption(option, this.state.text) &&
+        !~this.props.value.findIndex(value => _isEqual(value, option))
+      )
         toGroup.push(option)
 
     })
@@ -172,14 +178,33 @@ class SelectManyInput extends React.Component {
   }
 
   handleChange = newValue => {
-    this.props.onChange(newValue)
 
-    this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
-      text: "",
-      focusedOptionIndex: null,
-    }))
+    this.props.onChange([
+      ...this.props.value,
+      newValue,
+    ])
+
+    // TO DO - transfer focus back to text input
+    if (this.props.shouldCloseOnChange)
+      this.setState(() => ({
+        dropdownHasFocus: false,
+        inputHasFocus: false,
+        text: "",
+        focusedOptionIndex: null,
+      }))
+    else
+      this.setState(() => ({
+        text: "",
+        focusedOptionIndex: null,
+      }))
+  }
+
+  handleRemoveValue = value => {
+
+    this.props.onChange(this.props.value
+      .filter(_value => !_isEqual(_value, value))
+    )
+
   }
 
   handleClear = () => {
@@ -281,6 +306,16 @@ class SelectManyInput extends React.Component {
 
   }
 
+  getHandleInnerValueClick = value => event => {
+    if (this.props.clearableValues)
+    {
+      event.stopPropagation()
+      event.preventDefault()
+      this.handleRemoveValue(value)
+    }
+  }
+
+
   renderOption = (option, index) => {
     // DEV - is it okay to use index as key here? What if the options change and the filter text doesn't?
 
@@ -327,12 +362,15 @@ class SelectManyInput extends React.Component {
       renderOption,
       renderDivider,
       value,
+      placeholder,
       onChange,
       optionTerm,
       filterOption,
       maxDropdownHeight,
       onCreateOption,
       resolveCreateTextToOption,
+      shouldCloseOnChange,
+      clearableValues,
       ...rest,
     } = this.props
 
@@ -342,6 +380,7 @@ class SelectManyInput extends React.Component {
 
     const shouldRenderDropdown = this.state.dropdownHasFocus
 
+    // TO DO - there is also a case where there are matching options, but they are not unique, they have already been selected as values, maybe say "available" in that case?
     const emptyMessage = !options.length ?
       `No ${pluralize(0, optionTerm, null, true)}.` :
       !filteredOptions.length ?
@@ -377,26 +416,37 @@ class SelectManyInput extends React.Component {
         }
       >
         <Dropdown.Trigger className="input-trigger">
-            {shouldRenderInput ?
-              <RawInput
-                {...rest}
-                autoFocus={this.state.dropdownHasFocus || rest.autoFocus}
-                value={this.state.text}
-                onChange={this.handleTextChange}
-                type="text"
-                disabled={!!disabled}
-                className="_input"
-                onFocus={this.handleFocusInput}
-                onBlur={this.handleBlurInput}
-                onKeyDown={this.handleKeyDown}
-              /> : <div
+              <div
                 className="_input-value"
               >
-                {renderValue(value)}
+                {value.map((_value, index) => (
+                  <div 
+                    className={classNames(
+                      "__inner-value",
+                      clearableValues && "--clearable",
+                    )}
+                    key={`${index}${value.length}`}
+                    onClick={this.getHandleInnerValueClick(_value)}
+                  >
+                    {renderValue(_value)}
+                  </div>
+                ))}
+                <RawInput
+                  {...rest}
+                  placeholder={value.length ? undefined : placeholder}
+                  autoFocus={this.state.dropdownHasFocus || rest.autoFocus}
+                  value={this.state.text}
+                  onChange={this.handleTextChange}
+                  type="text"
+                  disabled={!!disabled}
+                  className="_input"
+                  onFocus={this.handleFocusInput}
+                  onBlur={this.handleBlurInput}
+                  onKeyDown={this.handleKeyDown}
+                />
               </div>
-            }
-            {!shouldRenderDropdown && (
-              (clearable && value) ?
+            {!shouldRenderDropdown ? (
+              (clearable && value.length) ?
                 <Icon.Clear
                   className="_icon --control"
                   onClick={this.handleClear}
@@ -407,7 +457,7 @@ class SelectManyInput extends React.Component {
                   <Icon.DropDown
                     className="_icon"
                   />
-            )}
+            ) : <Icon.Empty className="_icon" />}
         </Dropdown.Trigger>
         <Dropdown.Content 
           className="input-dropdown" 
@@ -434,12 +484,18 @@ SelectManyInput.propTypes = {
   ...basicComponentProps.propTypes,
   ...basicInputProps.propTypes,
   ...selectInputProps.propTypes,
+  value: PropTypes.arrayOf(PropTypes.any),
+  shouldCloseOnChange: PropTypes.bool,
+  clearableValues: PropTypes.bool,
 }
 
 SelectManyInput.defaultProps = {
   ...basicComponentProps.defaultProps,
   ...basicInputProps.defaultProps,
   ...selectInputProps.defaultProps,
+  value: [],
+  shouldCloseOnChange: false,
+  clearableValues: false,
 }
 
 export default SelectManyInput

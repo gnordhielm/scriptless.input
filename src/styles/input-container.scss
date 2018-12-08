@@ -5,6 +5,7 @@
   color: $darkest;
   align-items: center;
   width: 150px;
+  position: relative;
 
   &:not(.--chained) {
     border: $border;
@@ -70,6 +71,27 @@
     cursor: pointer;
     padding: $xs-size 0 $xs-size $s-size;
     white-space: nowrap;
+  }
+
+  &.--select-many ._input-value {
+    display: flex;
+    flex-flow: row wrap;
+
+    ._input {
+      padding: 0;
+    }
+
+    & > .__inner-value {
+      margin-right: $s-size;
+
+      &.--clearable {
+        cursor: pointer;
+
+        &:hover {
+          color: $neutral;
+        }
+      }
+    }
   }
 
   ._icon {
