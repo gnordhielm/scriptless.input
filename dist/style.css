@@ -58,7 +58,8 @@
   display: flex;
   color: black;
   align-items: center;
-  width: 150px; }
+  width: 150px;
+  position: relative; }
   .input-container:not(.\--chained) {
     border: 1px solid black; }
   .input-container.\--select-one .input-trigger, .input-container.\--select-many .input-trigger {
@@ -94,6 +95,17 @@
     cursor: pointer;
     padding: 3px 0 3px 5px;
     white-space: nowrap; }
+  .input-container.\--select-many ._input-value {
+    display: flex;
+    flex-flow: row wrap; }
+    .input-container.\--select-many ._input-value ._input {
+      padding: 0; }
+    .input-container.\--select-many ._input-value > .__inner-value {
+      margin-right: 5px; }
+      .input-container.\--select-many ._input-value > .__inner-value.\--clearable {
+        cursor: pointer; }
+        .input-container.\--select-many ._input-value > .__inner-value.\--clearable:hover {
+          color: gray; }
   .input-container ._icon {
     flex: 0 0 auto; }
   .input-container.\--read-only ._input,
