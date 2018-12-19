@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs } from '@storybook/addon-knobs'
@@ -13,6 +13,27 @@ const baseProps = {
     reportChange: action('onChange'),
     emptyValue: undefined,
     startValue: undefined,
+}
+
+const AdjacentExample = () => {
+
+    const [ firstValue, setFirstValue ] = useState()
+    const [ secondValue, setSecondValue ] = useState()
+
+    return (
+        <div style={{ display: 'flex' }}>
+            <SelectOneInput
+                options={options}
+                onChange={setFirstValue}
+                value={firstValue}
+            />
+            <SelectOneInput
+                options={options}
+                onChange={setSecondValue}
+                value={secondValue}
+            />
+        </div>
+    )
 }
 
 storiesOf('SelectOneInput', module)
@@ -193,6 +214,7 @@ storiesOf('SelectOneInput', module)
             }}
         />
     ))
+    .add('adjacent inputs', () => <AdjacentExample />)
     // .add('stress test', () => (
     //     <GenericInputWrapper 
     //         { ...baseProps }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs } from '@storybook/addon-knobs'
@@ -42,6 +42,44 @@ const basicChildren = [
     )
 ]
 
+const AdjacentChainedExample = () => {
+    const [ values, setValues ] = useState([])
+    return (
+        <div style={{ display: 'flex' }}>
+            <ChainedInput
+                renderTrigger={() => "Trigger"}
+                onChange={setValues}
+            >
+                {({ 
+                    onCompleteChange,
+                    onIncompleteChange,
+                    ...rest 
+                }) => (
+                    <SelectOneInput
+                        options={options}
+                        { ...rest }
+                    />
+                )}
+            </ChainedInput>
+            <ChainedInput
+                renderTrigger={() => "Trigger"}
+                onChange={setValues}
+            >
+                {({ 
+                    onCompleteChange,
+                    onIncompleteChange,
+                    ...rest 
+                }) => (
+                    <SelectOneInput
+                        options={options}
+                        { ...rest }
+                    />
+                )}
+            </ChainedInput>
+        </div>
+    )
+}
+
 storiesOf('ChainedInput', module)
     .add('basic', () => (
         <GenericInputWrapper 
@@ -65,6 +103,7 @@ storiesOf('ChainedInput', module)
             />
         )}</GenericInputWrapper>
     ))
+    .add('adjacent chained inputs', () => <AdjacentChainedExample />)
     // .add('inline', () => (
     //     <GenericInputWrapper 
     //         { ...baseProps }

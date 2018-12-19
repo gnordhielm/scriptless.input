@@ -56,7 +56,7 @@ class SelectOneInput extends React.Component {
 
   state = {
     inputHasFocus: !!this.props.autoFocus,
-    dropdownHasFocus: !!this.props.autoFocus,
+    dropdownHasFocus: null,
     text: "",
     // DEV - it is a rule that this should NEVER be set to an index which does not correspond to an option value in the filtered array
     focusedOptionIndex: null,
@@ -137,9 +137,10 @@ class SelectOneInput extends React.Component {
   }
 
   handleBlurInput = () => {
+    
     this.setState(() => ({
       inputHasFocus: false
-    }))
+    }), this.handleHideDropdown)
   }
 
   handleShowDropdown = () => {
@@ -155,7 +156,7 @@ class SelectOneInput extends React.Component {
 
   handleHideDropdown = () => {
 
-    if (this.state.inputHasFocus) return
+    if (this.state.inputHasFocus || this.state.dropdownHasFocus) return
 
     this.props.onBlur()
 
@@ -342,7 +343,9 @@ class SelectOneInput extends React.Component {
     const shouldRenderInput = value === undefined ||
       this.state.dropdownHasFocus
 
-    const shouldRenderDropdown = this.state.dropdownHasFocus
+    const shouldRenderDropdown = this.state.dropdownHasFocus === null ?
+      !!this.props.autoFocus : 
+      this.state.dropdownHasFocus
 
     const emptyMessage = !options.length ?
       `No ${pluralize(0, optionTerm, null, true)}.` :
@@ -356,8 +359,16 @@ class SelectOneInput extends React.Component {
       <Dropdown
         ref={this.dropdown}
         hasFocus={shouldRenderDropdown}
-        onHide={this.handleHideDropdown}
-        onShow={this.handleShowDropdown}
+        onHide={() => {
+          this.setState(() => ({
+            dropdownHasFocus: false
+          }), this.handleHideDropdown)
+        }}
+        onShow={() => {
+          this.setState(() => ({
+            dropdownHasFocus: true
+          }), this.handleShowDropdown)
+        }}
         className={classNames(
           rootClassName,
           className,

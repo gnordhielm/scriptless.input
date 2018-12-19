@@ -74,6 +74,9 @@ class ChainedInput extends React.Component {
     }
 
     handleBlur = () => {
+        console.log('blur');
+        
+    
         this.setState(() => _cloneDeep(initialState))
     }
 
