@@ -12,6 +12,7 @@
   }
 
   &.--select-one,
+  &.--date,
   &.--select-many {
     .input-trigger {
       color: $darkest;
@@ -50,6 +51,7 @@
 
   &.--disabled,
   &.--disabled.--select-one .input-trigger,
+  &.--disabled.--date .input-trigger,
   &.--disabled.--select-many .input-trigger {
     cursor: default;
     border-color: $neutral;
@@ -105,6 +107,7 @@
   &.--read-only ._input-value, 
   &.--read-only ._text-area,
   &.--read-only.--select-one .input-trigger,
+  &.--read-only.--date .input-trigger,
   &.--read-only.--select-many .input-trigger {
     cursor: default;
     user-select: text;

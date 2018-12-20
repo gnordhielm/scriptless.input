@@ -9,6 +9,7 @@ import SelectManyInput from './components/SelectManyInput'
 import NumberInput from './components/NumberInput'
 import StringInput from './components/StringInput'
 import TextInput from './components/TextInput'
+import DateInput from './components/DateInput'
 import ChainedInput from './components/ChainedInput'
 
 const Input = {
@@ -16,6 +17,7 @@ const Input = {
     SelectMany: SelectManyInput,
     String: StringInput,
     Text: TextInput,
+    Date: DateInput,
     Number: NumberInput,
     Chained: ChainedInput,
 }

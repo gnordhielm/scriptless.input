@@ -52,8 +52,6 @@ const getNextValidOptionIndex = ({
 
 class SelectOneInput extends React.Component {
 
-  dropdown = React.createRef()
-
   state = {
     inputHasFocus: !!this.props.autoFocus,
     dropdownHasFocus: null,
@@ -137,7 +135,6 @@ class SelectOneInput extends React.Component {
   }
 
   handleBlurInput = () => {
-    
     this.setState(() => ({
       inputHasFocus: false
     }), this.handleHideDropdown)
@@ -357,18 +354,9 @@ class SelectOneInput extends React.Component {
 
     return (
       <Dropdown
-        ref={this.dropdown}
         hasFocus={shouldRenderDropdown}
-        onHide={() => {
-          this.setState(() => ({
-            dropdownHasFocus: false
-          }), this.handleHideDropdown)
-        }}
-        onShow={() => {
-          this.setState(() => ({
-            dropdownHasFocus: true
-          }), this.handleShowDropdown)
-        }}
+        onHide={this.handleHideDropdown}
+        onShow={this.handleShowDropdown}
         className={classNames(
           rootClassName,
           className,
@@ -424,9 +412,26 @@ class SelectOneInput extends React.Component {
         </Dropdown.Trigger>
         <Dropdown.Content 
           className="input-dropdown" 
+          tabIndex="-1"
+          onMouseDown={() => {
+            this.setState(() => ({
+              dropdownHasFocus: true
+            }))
+          }}
+          onFocus={() => {
+            this.setState(() => ({
+              dropdownHasFocus: true
+            }))
+          }}
+          onBlur={() => {           
+            this.setState(() => ({
+              dropdownHasFocus: false
+            }))
+          }}
           style={{
             maxHeight: maxDropdownHeight,
             overflow: "auto",
+            outline: "none",
           }}
         >
           {filteredOptions.map(this.renderOption)}

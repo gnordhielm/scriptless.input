@@ -815,10 +815,10 @@
   dependencies:
     uuid "^3.1.0"
 
-"@scriptless/dropdown@^1.0.0-alpha.7":
-  version "1.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/@scriptless/dropdown/-/dropdown-1.0.0-alpha.7.tgz#f9f546e05483d489e64da44be5e0da8793e17848"
-  integrity sha512-85EUa665r3Frx3QFxj4EKE7/9cixfEUQ1xsyVBcN9elpCetDN7mxBEUTt6SY2m+PD8J1LF4cAd4W3akRl0sm4w==
+"@scriptless/dropdown@^1.0.0-alpha.9":
+  version "1.0.0-alpha.9"
+  resolved "https://registry.yarnpkg.com/@scriptless/dropdown/-/dropdown-1.0.0-alpha.9.tgz#28ae3f46424d32398b9234d47f071fdc1f873c4a"
+  integrity sha512-ESAR8230IFie8AD7DSrD/grFQ6FZbNaLlTqrhxL1MyVAnb7+rHmghseU3YK/g4i13dmEGoGXCran48Rm94I/SA==
   dependencies:
     "@leiops/helpers" "^1.3.0"
     "@sambego/storybook-state" "^1.3.1"
