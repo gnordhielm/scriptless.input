@@ -62,7 +62,7 @@
   position: relative; }
   .input-container:not(.\--chained) {
     border: 1px solid black; }
-  .input-container.\--select-one .input-trigger, .input-container.\--select-many .input-trigger {
+  .input-container.\--select-one .input-trigger, .input-container.\--date .input-trigger, .input-container.\--select-many .input-trigger {
     color: black;
     display: flex;
     align-items: center; }
@@ -79,6 +79,7 @@
     cursor: default; }
   .input-container.\--disabled,
   .input-container.\--disabled.\--select-one .input-trigger,
+  .input-container.\--disabled.\--date .input-trigger,
   .input-container.\--disabled.\--select-many .input-trigger {
     cursor: default;
     border-color: gray;
@@ -115,6 +116,7 @@
   .input-container.\--read-only ._input-value,
   .input-container.\--read-only ._text-area,
   .input-container.\--read-only.\--select-one .input-trigger,
+  .input-container.\--read-only.\--date .input-trigger,
   .input-container.\--read-only.\--select-many .input-trigger {
     cursor: default;
     user-select: text; }
