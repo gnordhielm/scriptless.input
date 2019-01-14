@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import _noop from 'lodash/noop'
 import {
   classNames,
@@ -6,6 +7,7 @@ import {
 } from '@leiops/helpers'
 import Icon from '@leiops/icon'
 import Dropdown from '@scriptless/dropdown'
+import moment from 'moment'
 
 import * as basicComponentProps from 'utils/basicComponentProps'
 import * as basicInputProps from 'utils/basicInputProps'
@@ -13,11 +15,14 @@ import isDefined from 'utils/isDefined'
 import { KEY } from 'utils/constants'
 import { baseClass } from 'settings'
 import RawInput from 'components/RawInput'
+import Calendar from 'components/Calendar'
 
 const rootClassName = classNames(
   baseClass + "-container",
   "--date",
 )
+
+// TO DO - accept some kind of text input
 
 class DateInput extends React.Component {  
   
@@ -25,8 +30,32 @@ class DateInput extends React.Component {
     inputHasFocus: !!this.props.autoFocus,
     dropdownHasFocus: null,
     text: "",
-    // DEV - it is a rule that this should NEVER be set to an index which does not correspond to an option value in the filtered array
-    focusedOptionIndex: null,
+    focusedDay: null,
+  }
+
+  getFocusedDay = () => {
+    return this.state.focusedDay === null ? 
+      moment(this.props.value) :
+      this.state.focusedDay
+  }
+
+  stepFocusedDay = ({
+    step,
+    stepBackward=false,
+    snap=false,
+  }) => {
+    // TO DO - check against max and min
+
+    const newFocusedDay = this.getFocusedDay()
+      .clone()
+      .add(stepBackward ? -1 : 1, step)
+
+    if (snap && stepBackward)
+      newFocusedDay.endOf(step)
+    if (snap && !stepBackward)
+      newFocusedDay.startOf(step)
+
+    return newFocusedDay
   }
 
   handleFocusInput = () => {
@@ -64,25 +93,28 @@ class DateInput extends React.Component {
     this.setState(() => ({
       dropdownHasFocus: false,
       text: "",
-      focusedOptionIndex: null,
+      focusedDay: null,
     }))
   }
 
   handleTextChange = text => {
     this.setState(() => ({
       text,
-      focusedOptionIndex: null,
+      focusedDay: null,
     }))
   }
 
   handleChange = newValue => {
-    this.props.onChange(newValue)
+    if (isDefined(newValue))
+      this.props.onChange(newValue.valueOf())
+    else
+      this.props.onChange(undefined)
 
     this.setState(() => ({
       dropdownHasFocus: false,
       inputHasFocus: false,
       text: "",
-      focusedOptionIndex: null,
+      focusedDay: null,
     }))
   }
 
@@ -94,84 +126,64 @@ class DateInput extends React.Component {
     }))
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = event => { 'log'
+
+  // arrow (page, nav), enter
 
     const { key } = event
+    let newFocusedDay
 
     if (key === KEY.ARROW_DOWN)
-      this.handleNavigateDown()
+      newFocusedDay = this.stepFocusedDay({
+        step: 'week',
+      })
     else if (key === KEY.ARROW_UP)
-      this.handleNavigateUp()  
+      newFocusedDay = this.stepFocusedDay({
+        step: 'week',
+        stepBackward: true,
+      })
+    else if (key === KEY.ARROW_LEFT)
+      newFocusedDay = this.stepFocusedDay({
+        step: 'day',
+        stepBackward: true,
+      })
+    else if (key === KEY.ARROW_RIGHT)
+      newFocusedDay = this.stepFocusedDay({
+        step: 'day',
+      })
     else if (key === KEY.ENTER)
-    {
-
-      if (typeof this.state.focusedOptionIndex !== 'number')
-        return
-
-      const value = this.getResolvedOptions()[this.state.focusedOptionIndex]
-      if (value instanceof SelectCreateOption)
-        this.handleCreateOption(
-          this.props.resolveCreateTextToOption(value.value)
-        )
-      else
-        this.handleChange(value)
-    }
+      this.handleChange(this.getFocusedDay())
     else
       return
+
+    if (newFocusedDay)
+    {
+      this.setState(() => ({ focusedDay: newFocusedDay }))
+      return
+    }
 
     event.preventDefault()
     event.stopPropagation()
 
   }
 
-  handleNavigateDown = () => {
-    const { focusedOptionIndex } = this.state
-    const options = this.getResolvedOptions()
-    if (!options.length) return
-
-    if (focusedOptionIndex === null ||
-      focusedOptionIndex >= options.length - 1)
-        this.setState(() => ({ 
-          focusedOptionIndex: getNextValidOptionIndex({
-            startIndex: 0,
-            step: 1,
-            options,
-          }) 
-        }))
-    else
-      this.setState(() => ({ 
-        focusedOptionIndex: getNextValidOptionIndex({
-          startIndex: focusedOptionIndex + 1,
-          step: 1,
-          options,
-        }) 
-      }))
-
+  handlePageLeft = () => {
+    this.setState(() => ({ 
+      focusedDay: this.stepFocusedDay({
+        step: 'month',
+        stepBackward: true,
+        snap: true,
+      }) 
+    }))
   }
 
-  handleNavigateUp = () => {
-    const { focusedOptionIndex } = this.state
-    const options = this.getResolvedOptions()
-    if (!options.length) return
-
-    if (focusedOptionIndex === null ||
-      focusedOptionIndex <= 0)
-        this.setState(() => ({ 
-          focusedOptionIndex: getNextValidOptionIndex({
-            startIndex: options.length - 1,
-            step: -1,
-            options,
-          }) 
-        }))
-    else
-      this.setState(() => ({ 
-        focusedOptionIndex: getNextValidOptionIndex({
-          startIndex: focusedOptionIndex - 1,
-          step: -1,
-          options,
-        }) 
-      }))
-
+  handlePageRight = () => {
+    this.setState(() => ({ 
+      focusedDay: this.stepFocusedDay({
+        step: 'month',
+        snap: true,
+      }) 
+    }))
   }
 
   render() {
@@ -183,12 +195,14 @@ class DateInput extends React.Component {
       inline,
       minWidth,
       maxWidth,
-      renderValue,
+      renderFormat,
       value,
       onChange,
       maxDropdownHeight,
       ...rest,
     } = this.props
+
+    const renderedValue = value ? moment(value).format(renderFormat) : ""
 
     const shouldRenderInput = value === undefined ||
       this.state.dropdownHasFocus
@@ -246,7 +260,7 @@ class DateInput extends React.Component {
             /> : <div
             className="_input-value"
             >
-              {renderValue(value)}
+              {renderedValue}
             </div>
         }
         {!shouldRenderDropdown && (
@@ -258,7 +272,7 @@ class DateInput extends React.Component {
               <CustomIcon
                 className="_icon"
               /> :
-              <Icon.DropDown
+              <Icon.Calendar
                 className="_icon"
               />
         )}
@@ -270,6 +284,12 @@ class DateInput extends React.Component {
           overflow: "auto",
         }}
       >
+        <Calendar
+          focusedDay={this.getFocusedDay()}
+          onDayClick={this.handleChange}
+          onPageLeft={this.handlePageLeft}
+          onPageRight={this.handlePageRight}
+        />
       </Dropdown.Content>
     </Dropdown>
     )
@@ -281,11 +301,13 @@ DateInput.displayName = "DateInput"
 DateInput.propTypes = {
 ...basicComponentProps.propTypes,
 ...basicInputProps.propTypes,
+  renderFormat: PropTypes.string,
 }
 
 DateInput.defaultProps = {
-...basicComponentProps.defaultProps,
-...basicInputProps.defaultProps,
+  ...basicComponentProps.defaultProps,
+  ...basicInputProps.defaultProps,
+  renderFormat: "M/D/YY",
 }
 
 export default DateInput
