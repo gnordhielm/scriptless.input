@@ -74,7 +74,7 @@ class DateInput extends React.Component {
   }
 
   handleShowDropdown = () => {
-
+    
     if (this.props.disabled || this.props.readOnly) return
 
     this.props.onFocus()
@@ -120,15 +120,13 @@ class DateInput extends React.Component {
 
   handleClear = () => {
     this.props.onChange()
-
+    
     this.setState(() => ({
       dropdownHasFocus: true,
     }))
   }
 
-  handleKeyDown = event => { 'log'
-
-  // arrow (page, nav), enter
+  handleKeyDown = event => {
 
     const { key } = event
     let newFocusedDay
@@ -214,16 +212,8 @@ class DateInput extends React.Component {
     return (
       <Dropdown
         hasFocus={shouldRenderDropdown}
-        onHide={() => {
-          this.setState(() => ({
-            dropdownHasFocus: false
-          }), this.handleHideDropdown)
-        }}
-        onShow={() => {
-          this.setState(() => ({
-            dropdownHasFocus: true
-          }), this.handleShowDropdown)
-        }}
+        onHide={this.handleHideDropdown}
+        onShow={this.handleShowDropdown}
         className={classNames(
           rootClassName,
           className,
