@@ -40,6 +40,12 @@ const RawTextArea = ({
 }) => {
 
   const Component = autoSize ? AutoSizeTextArea : 'textarea'
+  const restProps = {}
+  if (autoSize)
+  {
+    restProps.minRows = minRows
+    restProps.maxRows = maxRows
+  }
 
   return (
     <Component
@@ -59,8 +65,7 @@ const RawTextArea = ({
       value={value}
       readOnly={readOnly}
       rows={autoSize ? undefined : defaultRows}
-      minRows={autoSize ? minRows : undefined}
-      maxRows={autoSize ? maxRows : undefined}
+      { ...restProps }
     />
   )
 }
