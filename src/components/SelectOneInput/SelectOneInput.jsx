@@ -135,7 +135,7 @@ class SelectOneInput extends React.Component {
     }))
   }
 
-  handleHideDropdown = () => {
+  handleHideDropdown = () => { 
 
     this.props.onBlur()
 
@@ -153,11 +153,12 @@ class SelectOneInput extends React.Component {
     }))
   }
 
-  handleChange = newValue => {
+  handleChange = newValue => { 
+    
     this.props.onChange(newValue)
 
     this.setState(() => ({
-      dropdownIsOpen: false,
+      // dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))

@@ -68,15 +68,10 @@ class ChainedInput extends React.Component {
         }
     }
 
-    handleFocus = (event) => {
-
-        // TEMP - this is a horrible hack to keep this component from fighting with the window click handler in the dropdown (without defer we get -> chained input gets focus -> dropdown mounts -> dropdown gets click event -> click was not in dropdown -> dropdown closes) - this keeps the dropdown from handling the click
-        _defer(() => {
-            this.setState(() => ({
-                hasFocus: true,
-            }))
-        })
-        
+    handleFocus = () => {
+        this.setState(() => ({
+            hasFocus: true,
+        }))
     }
 
     handleBlur = () => {
@@ -90,9 +85,8 @@ class ChainedInput extends React.Component {
                 <div 
                     className="input-container --chained --trigger"
                     onClick={this.handleFocus}
-                    // TO DO - this fires in odd sequence, causing dropdown issues
-                    // onFocus={this.handleFocus}
-                    // tabIndex={1}
+                    onFocus={this.handleFocus}
+                    tabIndex={1}
                 >
                     {this.props.renderTrigger()}
                 </div>

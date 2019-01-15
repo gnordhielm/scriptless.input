@@ -8,6 +8,7 @@ import { options, dividedOptions } from 'utils/storyProps'
 import GenericInputWrapper from 'examples/GenericInputWrapper'
 import ChainedInput from 'components/ChainedInput'
 import SelectOneInput from 'components/SelectOneInput'
+import DateInput from 'components/DateInput'
 import StringInput from 'components/StringInput'
 import NumberInput from 'components/NumberInput'
 
@@ -22,6 +23,13 @@ const basicChildren = [
     ({ onCompleteChange, onIncompleteChange, ...rest }) => (
         <SelectOneInput
             Icon={Icon.User}
+            options={options}
+            { ...rest }
+        />
+    ),
+    ({ onCompleteChange, onIncompleteChange, ...rest }) => (
+        <DateInput
+            Icon={Icon.Calendar}
             options={options}
             { ...rest }
         />
