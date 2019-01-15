@@ -53,7 +53,7 @@ const getNextValidOptionIndex = ({
 class SelectOneInput extends React.Component {
 
   state = {
-    dropdownIsOpen: !!this.props.autoFocus,
+    dropdownIsOpen: null,
     text: "",
     // DEV - it is a rule that this should NEVER be set to an index which does not correspond to an option value in the filtered array
     focusedOptionIndex: null,
@@ -313,6 +313,8 @@ class SelectOneInput extends React.Component {
       maxDropdownHeight,
       onCreateOption,
       resolveCreateTextToOption,
+      onBlur,
+      onFocus,
       ...rest,
     } = this.props
 
@@ -329,8 +331,6 @@ class SelectOneInput extends React.Component {
       !filteredOptions.length ?
         `No matching ${pluralize(0, optionTerm, null, true)}.` :
         undefined
-
-    // TO DO - this is (probably) good in 80% of cases, but there needs to be a way for a user to override this in props.
 
     return (
       <Dropdown
@@ -391,22 +391,6 @@ class SelectOneInput extends React.Component {
         </Dropdown.Trigger>
         <Dropdown.Content 
           className="input-dropdown" 
-          tabIndex="-1"
-          onMouseDown={() => {
-            this.setState(() => ({
-              dropdownIsOpen: true
-            }))
-          }}
-          onFocus={() => {
-            this.setState(() => ({
-              dropdownIsOpen: true
-            }))
-          }}
-          onBlur={() => {           
-            this.setState(() => ({
-              dropdownIsOpen: false
-            }))
-          }}
           style={{
             maxHeight: maxDropdownHeight,
             overflow: "auto",

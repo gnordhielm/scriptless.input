@@ -371,6 +371,8 @@ class SelectManyInput extends React.Component {
       resolveCreateTextToOption,
       shouldCloseOnChange,
       clearableValues,
+      onBlur,
+      onFocus,
       ...rest,
     } = this.props
 

@@ -179,6 +179,8 @@ class DateInput extends React.Component {
       value,
       onChange,
       maxDropdownHeight,
+      onBlur,
+      onFocus,
       ...rest,
     } = this.props
 
