@@ -53,8 +53,7 @@ const getNextValidOptionIndex = ({
 class SelectOneInput extends React.Component {
 
   state = {
-    inputHasFocus: !!this.props.autoFocus,
-    dropdownHasFocus: null,
+    dropdownIsOpen: !!this.props.autoFocus,
     text: "",
     // DEV - it is a rule that this should NEVER be set to an index which does not correspond to an option value in the filtered array
     focusedOptionIndex: null,
@@ -125,21 +124,6 @@ class SelectOneInput extends React.Component {
     return result
   }
 
-  handleFocusInput = () => {
-
-    if (this.props.disabled || this.props.readOnly) return
-
-    this.setState(() => ({
-      inputHasFocus: true
-    }))
-  }
-
-  handleBlurInput = () => {
-    this.setState(() => ({
-      inputHasFocus: false
-    }), this.handleHideDropdown)
-  }
-
   handleShowDropdown = () => {
 
     if (this.props.disabled || this.props.readOnly) return
@@ -147,18 +131,16 @@ class SelectOneInput extends React.Component {
     this.props.onFocus()
 
     this.setState(() => ({
-      dropdownHasFocus: true
+      dropdownIsOpen: true
     }))
   }
 
   handleHideDropdown = () => {
 
-    if (this.state.inputHasFocus || this.state.dropdownHasFocus) return
-
     this.props.onBlur()
 
     this.setState(() => ({
-      dropdownHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -175,8 +157,7 @@ class SelectOneInput extends React.Component {
     this.props.onChange(newValue)
 
     this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -186,7 +167,7 @@ class SelectOneInput extends React.Component {
     this.props.onChange()
 
     this.setState(() => ({
-      dropdownHasFocus: true,
+      dropdownIsOpen: true,
     }))
   }
 
@@ -194,8 +175,7 @@ class SelectOneInput extends React.Component {
     this.props.onCreateOption(newOption)
 
     this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -338,11 +318,11 @@ class SelectOneInput extends React.Component {
 
     const filteredOptions = this.getResolvedOptions()
     const shouldRenderInput = value === undefined ||
-      this.state.dropdownHasFocus
+      this.state.dropdownIsOpen
 
-    const shouldRenderDropdown = this.state.dropdownHasFocus === null ?
+    const shouldRenderDropdown = this.state.dropdownIsOpen === null ?
       !!this.props.autoFocus : 
-      this.state.dropdownHasFocus
+      this.state.dropdownIsOpen
 
     const emptyMessage = !options.length ?
       `No ${pluralize(0, optionTerm, null, true)}.` :
@@ -357,6 +337,7 @@ class SelectOneInput extends React.Component {
         hasFocus={shouldRenderDropdown}
         onHide={this.handleHideDropdown}
         onShow={this.handleShowDropdown}
+        triggerShouldNotToggle
         className={classNames(
           rootClassName,
           className,
@@ -381,14 +362,12 @@ class SelectOneInput extends React.Component {
             {shouldRenderInput ?
               <RawInput
                 {...rest}
-                autoFocus={this.state.dropdownHasFocus || rest.autoFocus}
+                autoFocus={this.state.dropdownIsOpen || rest.autoFocus}
                 value={this.state.text}
                 onChange={this.handleTextChange}
                 type="text"
                 disabled={!!disabled}
                 className="_input"
-                onFocus={this.handleFocusInput}
-                onBlur={this.handleBlurInput}
                 onKeyDown={this.handleKeyDown}
               /> : <div
                 className="_input-value"
@@ -415,17 +394,17 @@ class SelectOneInput extends React.Component {
           tabIndex="-1"
           onMouseDown={() => {
             this.setState(() => ({
-              dropdownHasFocus: true
+              dropdownIsOpen: true
             }))
           }}
           onFocus={() => {
             this.setState(() => ({
-              dropdownHasFocus: true
+              dropdownIsOpen: true
             }))
           }}
           onBlur={() => {           
             this.setState(() => ({
-              dropdownHasFocus: false
+              dropdownIsOpen: false
             }))
           }}
           style={{

@@ -27,8 +27,7 @@ const rootClassName = classNames(
 class DateInput extends React.Component {  
   
   state = {
-    inputHasFocus: !!this.props.autoFocus,
-    dropdownHasFocus: null,
+    dropdownIsOpen: !!this.props.autoFocus,
     text: "",
     focusedDay: null,
   }
@@ -58,21 +57,6 @@ class DateInput extends React.Component {
     return newFocusedDay
   }
 
-  handleFocusInput = () => {
-
-    if (this.props.disabled || this.props.readOnly) return
-
-    this.setState(() => ({
-      inputHasFocus: true
-    }))
-  }
-
-  handleBlurInput = () => {
-    this.setState(() => ({
-      inputHasFocus: false
-    }), this.handleHideDropdown)
-  }
-
   handleShowDropdown = () => {
     
     if (this.props.disabled || this.props.readOnly) return
@@ -80,18 +64,16 @@ class DateInput extends React.Component {
     this.props.onFocus()
 
     this.setState(() => ({
-      dropdownHasFocus: true
+      dropdownIsOpen: true
     }))
   }
 
   handleHideDropdown = () => {
 
-    if (this.state.inputHasFocus || this.state.dropdownHasFocus) return
-
     this.props.onBlur()
 
     this.setState(() => ({
-      dropdownHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedDay: null,
     }))
@@ -111,18 +93,18 @@ class DateInput extends React.Component {
       this.props.onChange(undefined)
 
     this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedDay: null,
     }))
   }
 
   handleClear = () => {
+    
     this.props.onChange()
     
     this.setState(() => ({
-      dropdownHasFocus: true,
+      dropdownIsOpen: true,
     }))
   }
 
@@ -203,17 +185,18 @@ class DateInput extends React.Component {
     const renderedValue = value ? moment(value).format(renderFormat) : ""
 
     const shouldRenderInput = value === undefined ||
-      this.state.dropdownHasFocus
+      this.state.dropdownIsOpen
     
-    const shouldRenderDropdown = this.state.dropdownHasFocus === null ?
+    const shouldRenderDropdown = this.state.dropdownIsOpen === null ?
       !!this.props.autoFocus : 
-      this.state.dropdownHasFocus
+      this.state.dropdownIsOpen
 
     return (
       <Dropdown
         hasFocus={shouldRenderDropdown}
         onHide={this.handleHideDropdown}
         onShow={this.handleShowDropdown}
+        triggerShouldNotToggle
         className={classNames(
           rootClassName,
           className,
@@ -238,14 +221,12 @@ class DateInput extends React.Component {
           {shouldRenderInput ?
             <RawInput
               {...rest}
-              autoFocus={this.state.dropdownHasFocus || rest.autoFocus}
+              autoFocus={this.state.dropdownIsOpen || rest.autoFocus}
               value={this.state.text}
               onChange={this.handleTextChange}
               type="text"
               disabled={!!disabled}
               className="_input"
-              onFocus={this.handleFocusInput}
-              onBlur={this.handleBlurInput}
               onKeyDown={this.handleKeyDown}
             /> : <div
             className="_input-value"

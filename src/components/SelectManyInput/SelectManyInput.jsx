@@ -395,6 +395,7 @@ class SelectManyInput extends React.Component {
         hasFocus={shouldRenderDropdown}
         onHide={this.handleHideDropdown}
         onShow={this.handleShowDropdown}
+        triggerShouldNotToggle
         className={classNames(
           rootClassName,
           className,
