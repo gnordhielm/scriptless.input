@@ -136,7 +136,6 @@ class SelectOneInput extends React.Component {
   }
 
   handleHideDropdown = () => {
-console.log('hide dropdown');
 
     this.props.onBlur()
 

@@ -184,3 +184,52 @@
   width: 100%;
   height: 100%; }
 
+.calendar {
+  font-size: 16px;
+  user-select: none; }
+  .calendar .icon {
+    height: 16px;
+    width: 16px; }
+  .calendar > .__header {
+    display: flex;
+    padding: 9px 5px;
+    align-items: center; }
+    .calendar > .__header > .__title {
+      flex: 1;
+      text-align: center; }
+    .calendar > .__header > .__page-button.\--disabled {
+      fill: lightgray; }
+    .calendar > .__header > .__page-button:not(.\--disabled) {
+      cursor: pointer; }
+      .calendar > .__header > .__page-button:not(.\--disabled):hover {
+        fill: gray; }
+  .calendar > .__days {
+    display: flex;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 0 5px 5px; }
+    .calendar > .__days > .__day {
+      flex: 1;
+      min-width: 28px;
+      color: gray;
+      text-align: center;
+      padding: 0 3px; }
+  .calendar .__body {
+    padding: 0 5px 5px; }
+    .calendar .__body > .__week {
+      display: flex;
+      justify-content: space-around; }
+      .calendar .__body > .__week > .__day {
+        min-width: 28px;
+        flex: 1;
+        text-align: center;
+        padding: 5px 0; }
+        .calendar .__body > .__week > .__day.\--disabled {
+          color: gray; }
+        .calendar .__body > .__week > .__day.\--active {
+          background: lightgray; }
+        .calendar .__body > .__week > .__day:not(.\--disabled) {
+          cursor: pointer; }
+          .calendar .__body > .__week > .__day:not(.\--disabled):hover {
+            background: lightgray; }
+
