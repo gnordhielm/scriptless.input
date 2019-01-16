@@ -158,7 +158,7 @@ class SelectOneInput extends React.Component {
     this.props.onChange(newValue)
 
     this.setState(() => ({
-      // dropdownIsOpen: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
