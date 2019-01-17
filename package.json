@@ -1,6 +1,6 @@
 {
   "name": "@scriptless/input",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.20",
   "description": "Intuitive, assistive input components for React projects.",
   "main": "./dist/main.js",
   "scripts": {

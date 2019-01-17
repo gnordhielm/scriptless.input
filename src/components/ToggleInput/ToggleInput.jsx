@@ -49,7 +49,7 @@ const ToggleInput = ({
 
 ToggleInput.displayName = "ToggleInput"
 ToggleInput.propTypes = {
-    ...basicComponentProps,
+    ...basicComponentProps.propTypes,
     label: PropTypes.string,
     value: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
