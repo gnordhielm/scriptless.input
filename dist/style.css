@@ -66,6 +66,35 @@
     color: black;
     display: flex;
     align-items: center; }
+  .input-container.\--toggle {
+    border: none;
+    cursor: pointer;
+    user-select: none; }
+    .input-container.\--toggle > .__switch-container {
+      height: 20px;
+      width: 23px;
+      display: flex;
+      align-items: center;
+      position: relative; }
+      .input-container.\--toggle > .__switch-container > .__line {
+        height: 1px;
+        background: gray;
+        width: 100%; }
+      .input-container.\--toggle > .__switch-container > .__switch {
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
+        background: lightgray;
+        left: 0;
+        transition: left ease-out 200ms, background ease-out 200ms; }
+    .input-container.\--toggle > .__label {
+      margin-left: 9px; }
+    .input-container.\--toggle.\--active > .__switch-container > .__switch {
+      background: black;
+      left: calc(100% - 13px); }
+    .input-container.\--toggle.\--active > .__switch-container > .__line {
+      background: black; }
   .input-container.\--inline {
     display: inline-flex;
     border: 0;

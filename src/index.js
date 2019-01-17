@@ -11,6 +11,7 @@ import StringInput from './components/StringInput'
 import TextInput from './components/TextInput'
 import DateInput from './components/DateInput'
 import ChainedInput from './components/ChainedInput'
+import ToggleInput from './components/ToggleInput'
 
 const Input = {
     SelectOne: SelectOneInput,
@@ -20,6 +21,7 @@ const Input = {
     Date: DateInput,
     Number: NumberInput,
     Chained: ChainedInput,
+    Toggle: ToggleInput,
 }
 
 export default Input
