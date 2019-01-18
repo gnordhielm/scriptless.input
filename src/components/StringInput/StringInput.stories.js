@@ -56,6 +56,15 @@ storiesOf('StringInput', module)
             }}
         />
     ))
+    .add('with debounce and value knob', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            value={text('Input Value', 'Go to knobs tab')}
+            props={{
+                debounce: 500,
+            }}
+        />
+    ))
     .add('disabled', () => (
         <GenericInputWrapper 
             { ...baseProps }

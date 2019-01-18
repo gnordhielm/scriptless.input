@@ -47,11 +47,20 @@ function withDebouncedOnChange(WrappedComponent) {
 
     flush = () => this.parentOnChange.flush()
 
-    cancel = () => {
-      this.setState(() => ({
-        hasPendingOnChange: false
-      }))
-      this.parentOnChange.cancel()
+    // cancel = () => {
+    //   this.setState(() => ({
+    //     hasPendingOnChange: false
+    //   }))
+    //   this.parentOnChange.cancel()
+    // }
+
+    componentDidUpdate(prevProps) {
+      if (prevProps.value !== this.props.value)
+      {
+        this.flush()
+        this.setState(() => ({ value: this.props.value }))
+      }
+
     }
 
     componentWillUnmount() {
@@ -63,12 +72,6 @@ function withDebouncedOnChange(WrappedComponent) {
         value
       }))
       this.triggerParentOnChange()
-    }
-
-    forceParentOnChange = event => {
-      if (!this.pendingOnChange) return
-      this.cancel()
-      this.props.onChange(event.target.value)
     }
 
     render() {
