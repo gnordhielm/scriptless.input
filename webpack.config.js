@@ -2,6 +2,13 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
+const postcssLoaderOptions = {
+  plugins: () => [require('autoprefixer')({
+      'browsers': ['> 1%', 'last 2 versions']
+  })],
+}
+
+
 process.noDeprecation = true
 
 module.exports = {
@@ -27,6 +34,10 @@ module.exports = {
           process.env.NODE_ENV === 'production' ?
                 MiniCssExtractPlugin.loader : 'style-loader',
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: postcssLoaderOptions,
+          },
           'sass-loader', 
         ],
       },

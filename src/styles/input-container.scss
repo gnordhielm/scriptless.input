@@ -7,6 +7,10 @@
   width: 150px;
   position: relative;
 
+  &.dropdown {
+     display: inline-flex;
+  }
+
   &:not(.--chained) {
     border: $border;
   }
