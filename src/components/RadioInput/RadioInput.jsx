@@ -11,13 +11,13 @@ import { baseClass } from 'settings'
 
 const rootClassName = classNames(
   baseClass + "-container",
-  "--toggle",
+  "--radio",
 )
-const ToggleInput = ({
+const RadioInput = ({
     className,
     disabled,
     readOnly,
-    label,
+    options,
     value,
     onChange,
 }) => (
@@ -33,34 +33,44 @@ const ToggleInput = ({
             (disabled && typeof disabled === 'string') ?
             disabled : undefined
         }
-        onClick={() => {
-            if (disabled) return
-            onChange(!value)
-        }}
     >
-        <div className="__switch-container">
-            <div className="__line"></div>
-            <div className="__switch"></div>
-        </div>
-        {label && 
-            <div className="__label">{label}</div>
+        {options.map((option, index) => (
+            <div 
+                key={option + index}
+                className={classNames(
+                    "__option",
+                    option === value && "--active"
+                )}
+                onClick={() => {
+                    if (disabled) return
+                    onChange(option)
+                }}
+            >
+                <div className="__button-container">
+                    <div className="__button-content" />
+                </div>
+                <div className="__label">
+                    {option}
+                </div>
+            </div>
+        ))
         }
     </div>
 )
 
-ToggleInput.displayName = "ToggleInput"
-ToggleInput.propTypes = {
+RadioInput.displayName = "RadioInput"
+RadioInput.propTypes = {
     ...basicComponentProps.propTypes,
-    label: PropTypes.string,
     value: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     readOnly: PropTypes.bool,
     disabled: PropTypes.bool,
+    options: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
-ToggleInput.defaultProps = {
+RadioInput.defaultProps = {
     readOnly: false,
     disabled: false,
 }
 
-export default ToggleInput
+export default RadioInput

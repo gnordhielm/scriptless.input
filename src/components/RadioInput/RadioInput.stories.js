@@ -3,26 +3,25 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
 import GenericInputWrapper from 'examples/GenericInputWrapper'
-import ToggleInput from 'components/ToggleInput'
+import RadioInput from 'components/RadioInput'
 
 const baseProps = {
-    Component: ToggleInput,
+    Component: RadioInput,
     reportChange: action('onChange'),
     emptyValue: false,
     startValue: false,
 }
 
-storiesOf('ToggleInput', module)
+storiesOf('RadioInput', module)
     .add('basic', () => (
         <GenericInputWrapper 
             { ...baseProps }
-        />
-    ))
-    .add('with label', () => (
-        <GenericInputWrapper 
-            { ...baseProps }
             props={{
-                label: "Toggle Me"
+                options: [
+                    'Foo',
+                    'Bar',
+                    'Baz',
+                ]
             }}
         />
     ))
@@ -66,7 +65,12 @@ storiesOf('ToggleInput', module)
           { ...baseProps }
           startValue="I am disabled."
           props={{
-              disabled: true
+              disabled: true,
+              options: [
+                  'Foo',
+                  'Bar',
+                  'Baz',
+              ]
           }}
       />
     ))

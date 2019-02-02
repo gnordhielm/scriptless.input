@@ -12,6 +12,7 @@ import TextInput from './components/TextInput'
 import DateInput from './components/DateInput'
 import ChainedInput from './components/ChainedInput'
 import ToggleInput from './components/ToggleInput'
+import RadioInput from './components/RadioInput'
 
 const Input = {
     SelectOne: SelectOneInput,
@@ -22,6 +23,7 @@ const Input = {
     Number: NumberInput,
     Chained: ChainedInput,
     Toggle: ToggleInput,
+    Radio: RadioInput,
 }
 
 export default Input

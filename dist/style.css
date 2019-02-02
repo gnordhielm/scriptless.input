@@ -82,13 +82,14 @@
       -ms-flex-align: center;
           align-items: center;
   width: 150px;
-  position: relative; }
+  position: relative;
+  border: 1px solid black; }
   .input-container.dropdown {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex; }
-  .input-container:not(.\--chained) {
-    border: 1px solid black; }
+  .input-container .\--chained {
+    border: none; }
   .input-container.\--select-one .input-trigger, .input-container.\--date .input-trigger, .input-container.\--select-many .input-trigger {
     color: black;
     display: -webkit-box;
@@ -134,6 +135,44 @@
       left: calc(100% - 13px); }
     .input-container.\--toggle.\--active > .__switch-container > .__line {
       background: black; }
+  .input-container.\--radio {
+    border: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start; }
+    .input-container.\--radio > .__option {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 0 0 5px; }
+      .input-container.\--radio > .__option > .__button-container {
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
+        border: 1px solid black;
+        padding: 1px;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box; }
+        .input-container.\--radio > .__option > .__button-container > .__button-content {
+          border-radius: 50%;
+          width: 100%;
+          height: 100%; }
+      .input-container.\--radio > .__option > .__label {
+        margin-left: 9px; }
+      .input-container.\--radio > .__option.\--active > .__button-container > .__button-content {
+        background: black; }
   .input-container.\--inline {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
