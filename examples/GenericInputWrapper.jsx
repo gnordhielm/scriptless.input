@@ -6,7 +6,7 @@ import isDefined from 'utils/isDefined'
 class GenericInputWrapper extends React.Component {
   
   state = {
-    value: this.props.startValue,
+    value: this.props.value || this.props.startValue,
   }
 
   handleChange = value => {
@@ -17,11 +17,19 @@ class GenericInputWrapper extends React.Component {
     this.props.reportChange(value)
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value)
+      this.setState(() => ({
+        value: this.props.value
+      }))
+  }
+
   render() {
 
     const {
       Component,
       props={},
+      value,
       children
     } = this.props
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import _defer from 'lodash/defer'
 import _cloneDeep from 'lodash/cloneDeep'
-import { Object } from 'es6-shim';
 
 const initialState = {
     values: {},
@@ -9,13 +9,16 @@ const initialState = {
     renderToIndex: 0,
     hasFocus: false,
 }
+// TO DO - it should be easier to change the child inputs at runtime - this means calling an onChange after each input is submitted
 
 class ChainedInput extends React.Component {
 
     state = _cloneDeep(initialState)
 
     getHasCompleteValue = () => {
-        return this.props.children.length === 
+        return (Array.isArray(this.props.children) ? 
+            this.props.children.length : 1
+        ) === 
             Object
                 .values(this.state.values)
                 .filter(_ => _)
@@ -88,10 +91,14 @@ class ChainedInput extends React.Component {
                     {this.props.renderTrigger()}
                 </div>
             )
-        
+
+        const normalizedChildren = Array.isArray(this.props.children) ?
+                this.props.children :
+                [ this.props.children ]
+
         return (
             <div className="input-container --chained">
-                {this.props.children.map((child, index) => {
+                {normalizedChildren.map((child, index) => {
 
                     if (index > this.state.renderToIndex)
                         return null
@@ -125,11 +132,14 @@ ChainedInput.propTypes = {
     // if a chained input is sequential, clearing a value up the chain will clear all subsequent values
     // sequential: PropTypes.bool,
     // can the composite value be cleared?
-    clearable: PropTypes.bool,
+    // clearable: PropTypes.bool,
 
-    inline: PropTypes.bool,
+    // inline: PropTypes.bool,
     
-    children: PropTypes.arrayOf(PropTypes.func).isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.arrayOf(PropTypes.func),
+    ]).isRequired,
     // a function for rendering the button which opens the input chain
     renderTrigger: PropTypes.func.isRequired,
     // control value renders per index

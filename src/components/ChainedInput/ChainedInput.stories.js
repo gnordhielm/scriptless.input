@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs } from '@storybook/addon-knobs'
@@ -8,6 +8,7 @@ import { options, dividedOptions } from 'utils/storyProps'
 import GenericInputWrapper from 'examples/GenericInputWrapper'
 import ChainedInput from 'components/ChainedInput'
 import SelectOneInput from 'components/SelectOneInput'
+import DateInput from 'components/DateInput'
 import StringInput from 'components/StringInput'
 import NumberInput from 'components/NumberInput'
 
@@ -22,6 +23,13 @@ const basicChildren = [
     ({ onCompleteChange, onIncompleteChange, ...rest }) => (
         <SelectOneInput
             Icon={Icon.User}
+            options={options}
+            { ...rest }
+        />
+    ),
+    ({ onCompleteChange, onIncompleteChange, ...rest }) => (
+        <DateInput
+            Icon={Icon.Calendar}
             options={options}
             { ...rest }
         />
@@ -42,6 +50,44 @@ const basicChildren = [
     )
 ]
 
+const AdjacentChainedExample = () => {
+    const [ values, setValues ] = useState([])
+    return (
+        <div style={{ display: 'flex' }}>
+            <ChainedInput
+                renderTrigger={() => "Trigger"}
+                onChange={setValues}
+            >
+                {({ 
+                    onCompleteChange,
+                    onIncompleteChange,
+                    ...rest 
+                }) => (
+                    <SelectOneInput
+                        options={options}
+                        { ...rest }
+                    />
+                )}
+            </ChainedInput>
+            <ChainedInput
+                renderTrigger={() => "Trigger"}
+                onChange={setValues}
+            >
+                {({ 
+                    onCompleteChange,
+                    onIncompleteChange,
+                    ...rest 
+                }) => (
+                    <SelectOneInput
+                        options={options}
+                        { ...rest }
+                    />
+                )}
+            </ChainedInput>
+        </div>
+    )
+}
+
 storiesOf('ChainedInput', module)
     .add('basic', () => (
         <GenericInputWrapper 
@@ -51,6 +97,21 @@ storiesOf('ChainedInput', module)
             }}
         >{basicChildren}</GenericInputWrapper>
     ))
+    .add('single child', () => (
+        <GenericInputWrapper 
+            { ...baseProps }
+            props={{
+                renderTrigger: () => "Trigger"
+            }}
+        >{({ onCompleteChange, onIncompleteChange, ...rest }) => (
+            <SelectOneInput
+                Icon={Icon.User}
+                options={options}
+                { ...rest }
+            />
+        )}</GenericInputWrapper>
+    ))
+    .add('adjacent chained inputs', () => <AdjacentChainedExample />)
     // .add('inline', () => (
     //     <GenericInputWrapper 
     //         { ...baseProps }

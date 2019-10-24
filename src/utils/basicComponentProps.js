@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 export const propTypes = {
-  // provice a css class
+  // provide a css class
   className: PropTypes.string,
 }
 

@@ -25,6 +25,8 @@ const rootClassName = classNames(
   "--select-one",
 )
 
+// TO DO - hitting enter when there is only one option should select it automatically
+
 // TO DO - tabbing away should close the dropdown and fire onBlur
 
 // TO DO - this doesn't know how to handle flipping back to the top or bottom on overflow, it needs to if I 'm going to fix the navigate up with keyboard bug
@@ -50,11 +52,8 @@ const getNextValidOptionIndex = ({
 
 class SelectOneInput extends React.Component {
 
-  dropdown = React.createRef()
-
   state = {
-    inputHasFocus: !!this.props.autoFocus,
-    dropdownHasFocus: !!this.props.autoFocus,
+    dropdownIsOpen: null,
     text: "",
     // DEV - it is a rule that this should NEVER be set to an index which does not correspond to an option value in the filtered array
     focusedOptionIndex: null,
@@ -125,21 +124,6 @@ class SelectOneInput extends React.Component {
     return result
   }
 
-  handleFocusInput = () => {
-
-    if (this.props.disabled || this.props.readOnly) return
-
-    this.setState(() => ({
-      inputHasFocus: true
-    }))
-  }
-
-  handleBlurInput = () => {
-    this.setState(() => ({
-      inputHasFocus: false
-    }))
-  }
-
   handleShowDropdown = () => {
 
     if (this.props.disabled || this.props.readOnly) return
@@ -147,18 +131,16 @@ class SelectOneInput extends React.Component {
     this.props.onFocus()
 
     this.setState(() => ({
-      dropdownHasFocus: true
+      dropdownIsOpen: true
     }))
   }
 
-  handleHideDropdown = () => {
-
-    if (this.state.inputHasFocus) return
+  handleHideDropdown = () => { 
 
     this.props.onBlur()
 
     this.setState(() => ({
-      dropdownHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -171,12 +153,12 @@ class SelectOneInput extends React.Component {
     }))
   }
 
-  handleChange = newValue => {
+  handleChange = newValue => { 
+    
     this.props.onChange(newValue)
 
     this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -186,7 +168,7 @@ class SelectOneInput extends React.Component {
     this.props.onChange()
 
     this.setState(() => ({
-      dropdownHasFocus: true,
+      dropdownIsOpen: true,
     }))
   }
 
@@ -194,8 +176,7 @@ class SelectOneInput extends React.Component {
     this.props.onCreateOption(newOption)
 
     this.setState(() => ({
-      dropdownHasFocus: false,
-      inputHasFocus: false,
+      dropdownIsOpen: false,
       text: "",
       focusedOptionIndex: null,
     }))
@@ -333,14 +314,18 @@ class SelectOneInput extends React.Component {
       maxDropdownHeight,
       onCreateOption,
       resolveCreateTextToOption,
+      onBlur,
+      onFocus,
       ...rest,
     } = this.props
 
     const filteredOptions = this.getResolvedOptions()
     const shouldRenderInput = value === undefined ||
-      this.state.dropdownHasFocus
+      this.state.dropdownIsOpen
 
-    const shouldRenderDropdown = this.state.dropdownHasFocus
+    const shouldRenderDropdown = this.state.dropdownIsOpen === null ?
+      !!this.props.autoFocus : 
+      this.state.dropdownIsOpen
 
     const emptyMessage = !options.length ?
       `No ${pluralize(0, optionTerm, null, true)}.` :
@@ -348,14 +333,12 @@ class SelectOneInput extends React.Component {
         `No matching ${pluralize(0, optionTerm, null, true)}.` :
         undefined
 
-    // TO DO - this is (probably) good in 80% of cases, but there needs to be a way for a user to override this in props.
-
     return (
       <Dropdown
-        ref={this.dropdown}
         hasFocus={shouldRenderDropdown}
         onHide={this.handleHideDropdown}
         onShow={this.handleShowDropdown}
+        triggerShouldNotToggle
         className={classNames(
           rootClassName,
           className,
@@ -380,14 +363,12 @@ class SelectOneInput extends React.Component {
             {shouldRenderInput ?
               <RawInput
                 {...rest}
-                autoFocus={this.state.dropdownHasFocus || rest.autoFocus}
+                autoFocus={this.state.dropdownIsOpen || rest.autoFocus}
                 value={this.state.text}
                 onChange={this.handleTextChange}
                 type="text"
                 disabled={!!disabled}
                 className="_input"
-                onFocus={this.handleFocusInput}
-                onBlur={this.handleBlurInput}
                 onKeyDown={this.handleKeyDown}
               /> : <div
                 className="_input-value"
@@ -414,6 +395,7 @@ class SelectOneInput extends React.Component {
           style={{
             maxHeight: maxDropdownHeight,
             overflow: "auto",
+            outline: "none",
           }}
         >
           {filteredOptions.map(this.renderOption)}
