@@ -1,19 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import _noop from 'lodash/noop'
-import AutoSizeTextArea from 'components/AutoSizeTextArea'
-import { ENTER_KEY, defaultRows } from 'settings'
+import React from "react"
+import PropTypes from "prop-types"
+import _noop from "lodash/noop"
+import AutoSizeTextArea from "components/AutoSizeTextArea"
+import { ENTER_KEY, defaultRows } from "settings"
 
 const getHandleKeyPress = (onEnter, onChange, value) => {
-
-  if (!onEnter) 
+  if (!onEnter)
     return () => {
       onChange(value + "\n")
     }
   else
     return event => {
-      if (event.key === ENTER_KEY) 
-      {
+      if (event.key === ENTER_KEY) {
         onChange(value + "\n")
         onEnter(event)
         event.stopPropagation()
@@ -22,48 +20,53 @@ const getHandleKeyPress = (onEnter, onChange, value) => {
     }
 }
 
-const RawTextArea = ({
-  autoComplete,
-  autoFocus,
-  autoSize,
-  disabled,
-  readOnly,
-  onChange,
-  value,
-  onBlur,
-  onFocus,
-  onEnter,
-  placeholder,
-  className,
-  minRows,
-  maxRows,
-}) => {
+const RawTextArea = React.forwardRef(
+  (
+    {
+      autoComplete,
+      autoFocus,
+      autoSize,
+      disabled,
+      readOnly,
+      onChange,
+      value,
+      onBlur,
+      onFocus,
+      onEnter,
+      placeholder,
+      className,
+      minRows,
+      maxRows
+    },
+    ref
+  ) => {
+    const Component = autoSize ? AutoSizeTextArea : "textarea"
 
-  const Component = autoSize ? AutoSizeTextArea : 'textarea'
-
-  return (
-    <Component
-      autoCapitalize="sentences"
-      className={className}
-      autoComplete={autoComplete.toString()}
-      autoFocus={autoFocus}
-      disabled={disabled}
-      onChange={event => {
-        onChange(event.target.value)
-      }}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      onKeyPress={getHandleKeyPress(onEnter, onChange, value)}
-      placeholder={placeholder}
-      spellCheck="false"
-      value={value}
-      readOnly={readOnly}
-      rows={autoSize ? undefined : defaultRows}
-      minRows={autoSize ? minRows : undefined}
-      maxRows={autoSize ? maxRows : undefined}
-    />
-  )
-}
+    return (
+      <Component
+        ref={ref}
+        autoCapitalize="sentences"
+        className={className}
+        autoComplete={autoComplete.toString()}
+        autoFocus={autoFocus}
+        disabled={disabled}
+        onChange={event => {
+          onChange(event.target.value)
+        }}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyPress={getHandleKeyPress(onEnter, onChange, value)}
+        placeholder={placeholder}
+        spellCheck="false"
+        value={value}
+        readOnly={readOnly}
+        rows={autoSize ? undefined : defaultRows}
+        minRows={autoSize ? minRows : undefined}
+        maxRows={autoSize ? maxRows : undefined}
+      />
+    )
+  }
+)
 
 RawTextArea.displayName = "RawTextArea"
 RawTextArea.propTypes = {
@@ -76,7 +79,7 @@ RawTextArea.propTypes = {
   value: PropTypes.any.isRequired,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  onEnter: PropTypes.func,
+  onEnter: PropTypes.func
 }
 
 RawTextArea.defaultProps = {
@@ -87,7 +90,7 @@ RawTextArea.defaultProps = {
   readOnly: false,
   onBlur: _noop,
   onFocus: _noop,
-  onEnter: _noop,
+  onEnter: _noop
 }
 
 export default RawTextArea
