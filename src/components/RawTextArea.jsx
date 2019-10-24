@@ -20,7 +20,6 @@ const getHandleKeyPress = (onEnter, onChange, value) => {
     }
 }
 
-<<<<<<< HEAD
 const RawTextArea = React.forwardRef(
   (
     {
@@ -42,10 +41,14 @@ const RawTextArea = React.forwardRef(
     ref
   ) => {
     const Component = autoSize ? AutoSizeTextArea : "textarea"
+    const restProps = {}
+    if (autoSize) {
+      restProps.minRows = minRows
+      restProps.maxRows = maxRows
+    }
 
     return (
       <Component
-        ref={ref}
         autoCapitalize="sentences"
         className={className}
         autoComplete={autoComplete.toString()}
@@ -62,61 +65,11 @@ const RawTextArea = React.forwardRef(
         value={value}
         readOnly={readOnly}
         rows={autoSize ? undefined : defaultRows}
-        minRows={autoSize ? minRows : undefined}
-        maxRows={autoSize ? maxRows : undefined}
+        {...restProps}
       />
     )
   }
 )
-=======
-const RawTextArea = ({
-  autoComplete,
-  autoFocus,
-  autoSize,
-  disabled,
-  readOnly,
-  onChange,
-  value,
-  onBlur,
-  onFocus,
-  onEnter,
-  placeholder,
-  className,
-  minRows,
-  maxRows,
-}) => {
-
-  const Component = autoSize ? AutoSizeTextArea : 'textarea'
-  const restProps = {}
-  if (autoSize)
-  {
-    restProps.minRows = minRows
-    restProps.maxRows = maxRows
-  }
-
-  return (
-    <Component
-      autoCapitalize="sentences"
-      className={className}
-      autoComplete={autoComplete.toString()}
-      autoFocus={autoFocus}
-      disabled={disabled}
-      onChange={event => {
-        onChange(event.target.value)
-      }}
-      onBlur={onBlur}
-      onFocus={onFocus}
-      onKeyPress={getHandleKeyPress(onEnter, onChange, value)}
-      placeholder={placeholder}
-      spellCheck="false"
-      value={value}
-      readOnly={readOnly}
-      rows={autoSize ? undefined : defaultRows}
-      { ...restProps }
-    />
-  )
-}
->>>>>>> 3b4f25472f47733f9370ac9bcf06b8ee8be1ca98
 
 RawTextArea.displayName = "RawTextArea"
 RawTextArea.propTypes = {

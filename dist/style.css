@@ -1,0 +1,384 @@
+.dropdown {
+  font-size: 1rem;
+  position: relative;
+  display: inline-block; }
+
+.dropdown__trigger {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+
+.dropdown__trigger.\--active {
+  color: #c5c5c5;
+  fill: #c5c5c5; }
+
+.dropdown__content {
+  font-size: 1rem;
+  position: absolute;
+  background: white;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  border: 1px solid black;
+  color: black;
+  fill: black;
+  z-index: 1; }
+
+.dropdown__content > .__item {
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  vertical-align: middle;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+
+.dropdown__content > .__item:hover {
+  background: #c5c5c5; }
+
+.dropdown__content > .__item,
+.dropdown__content > .__item > a {
+  color: black;
+  fill: black; }
+
+.dropdown__content > .__item .icon:first-child {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem; }
+
+.input-container ._icon {
+  height: 16px;
+  width: 16px;
+  padding-right: 3px; }
+  .input-container ._icon.\--control {
+    cursor: pointer; }
+
+.input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: black;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 150px;
+  position: relative;
+  border: 1px solid black; }
+  .input-container.dropdown {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex; }
+  .input-container .\--chained {
+    border: none; }
+  .input-container.\--select-one .input-trigger, .input-container.\--date .input-trigger, .input-container.\--select-many .input-trigger {
+    color: black;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+  .input-container.\--toggle {
+    border: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none; }
+    .input-container.\--toggle > .__switch-container {
+      height: 20px;
+      width: 23px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      position: relative; }
+      .input-container.\--toggle > .__switch-container > .__line {
+        height: 1px;
+        background: gray;
+        width: 100%; }
+      .input-container.\--toggle > .__switch-container > .__switch {
+        position: absolute;
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
+        background: lightgray;
+        left: 0;
+        -webkit-transition: left ease-out 200ms, background ease-out 200ms;
+        transition: left ease-out 200ms, background ease-out 200ms; }
+    .input-container.\--toggle > .__label {
+      margin-left: 9px; }
+    .input-container.\--toggle.\--active > .__switch-container > .__switch {
+      background: black;
+      left: calc(100% - 13px); }
+    .input-container.\--toggle.\--active > .__switch-container > .__line {
+      background: black; }
+  .input-container.\--radio {
+    border: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start; }
+    .input-container.\--radio > .__option {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 0 0 5px; }
+      .input-container.\--radio > .__option > .__button-container {
+        height: 13px;
+        width: 13px;
+        border-radius: 50%;
+        border: 1px solid black;
+        padding: 1px;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box; }
+        .input-container.\--radio > .__option > .__button-container > .__button-content {
+          border-radius: 50%;
+          width: 100%;
+          height: 100%; }
+      .input-container.\--radio > .__option > .__label {
+        margin-left: 9px; }
+      .input-container.\--radio > .__option.\--active > .__button-container > .__button-content {
+        background: black; }
+  .input-container.\--inline {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    border: 0;
+    border-bottom: 1px solid black;
+    margin: 0 5px; }
+    .input-container.\--inline ._input {
+      padding: 3px 0; }
+    .input-container.\--inline ._icon {
+      padding: 0; }
+  .input-container.\--read-only {
+    cursor: default; }
+  .input-container.\--disabled,
+  .input-container.\--disabled.\--select-one .input-trigger,
+  .input-container.\--disabled.\--date .input-trigger,
+  .input-container.\--disabled.\--select-many .input-trigger {
+    cursor: default;
+    border-color: gray;
+    color: gray;
+    fill: gray; }
+  .input-container ._input,
+  .input-container ._input-value,
+  .input-container ._text-area {
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    min-width: 0;
+    -ms-flex-item-align: stretch;
+        align-self: stretch;
+    font-size: 16px; }
+  .input-container ._input-value {
+    cursor: pointer;
+    padding: 3px 0 3px 5px;
+    white-space: nowrap; }
+  .input-container.\--select-many ._input-value {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap; }
+    .input-container.\--select-many ._input-value ._input {
+      padding: 0; }
+    .input-container.\--select-many ._input-value > .__inner-value {
+      margin-right: 5px; }
+      .input-container.\--select-many ._input-value > .__inner-value.\--clearable {
+        cursor: pointer; }
+        .input-container.\--select-many ._input-value > .__inner-value.\--clearable:hover {
+          color: gray; }
+  .input-container ._icon {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+            flex: 0 0 auto; }
+  .input-container.\--read-only ._input,
+  .input-container.\--read-only ._icon,
+  .input-container.\--disabled ._input-value,
+  .input-container.\--read-only ._input-value,
+  .input-container.\--read-only ._input-value,
+  .input-container.\--read-only ._text-area,
+  .input-container.\--read-only.\--select-one .input-trigger,
+  .input-container.\--read-only.\--date .input-trigger,
+  .input-container.\--read-only.\--select-many .input-trigger {
+    cursor: default;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text; }
+  .input-container.\--chained {
+    width: initial; }
+    .input-container.\--chained.\--trigger {
+      cursor: pointer;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none; }
+    .input-container.\--chained > .__value {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      color: black;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      border: 1px solid black;
+      padding: 3px 5px; }
+      .input-container.\--chained > .__value:not(:last-child) {
+        margin-right: 3px; }
+
+.dropdown__content.input-dropdown {
+  width: 100%;
+  margin-left: -1px;
+  min-width: -webkit-min-content;
+  min-width: -moz-min-content;
+  min-width: min-content; }
+  .dropdown__content.input-dropdown > .__empty-message {
+    font-size: 14px;
+    color: gray;
+    text-align: center;
+    padding: 4px; }
+  .dropdown__content.input-dropdown > .__create-option {
+    padding: 4px; }
+  .dropdown__content.input-dropdown > .__divider {
+    font-size: 14px;
+    color: gray;
+    padding: 4px; }
+    .dropdown__content.input-dropdown > .__divider:not(:first-child) {
+      padding-top: 16px; }
+
+.input-container ._input {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  padding: 3px 0 3px 5px; }
+
+.input-container > .__text-area {
+  outline: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  margin: 3px 5px;
+  resize: vertical;
+  width: 100%;
+  white-space: pre-line; }
+
+.select-option {
+  padding: 2px 4px;
+  cursor: pointer; }
+  .select-option.\--has-focus, .select-option:hover {
+    background: lightgray; }
+
+.input-trigger.dropdown__trigger {
+  display: block;
+  width: 100%;
+  height: 100%; }
+
+.calendar {
+  font-size: 16px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none; }
+  .calendar .icon {
+    height: 16px;
+    width: 16px; }
+  .calendar > .__header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 9px 5px;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .calendar > .__header > .__title {
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1;
+      text-align: center; }
+    .calendar > .__header > .__page-button.\--disabled {
+      fill: lightgray; }
+    .calendar > .__header > .__page-button:not(.\--disabled) {
+      cursor: pointer; }
+      .calendar > .__header > .__page-button:not(.\--disabled):hover {
+        fill: gray; }
+  .calendar > .__days {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 0 5px 5px; }
+    .calendar > .__days > .__day {
+      -webkit-box-flex: 1;
+          -ms-flex: 1;
+              flex: 1;
+      min-width: 28px;
+      color: gray;
+      text-align: center;
+      padding: 0 3px; }
+  .calendar .__body {
+    padding: 0 5px 5px; }
+    .calendar .__body > .__week {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: distribute;
+          justify-content: space-around; }
+      .calendar .__body > .__week > .__day {
+        min-width: 28px;
+        -webkit-box-flex: 1;
+            -ms-flex: 1;
+                flex: 1;
+        text-align: center;
+        padding: 5px 0; }
+        .calendar .__body > .__week > .__day.\--disabled {
+          color: gray; }
+        .calendar .__body > .__week > .__day.\--active {
+          background: lightgray; }
+        .calendar .__body > .__week > .__day:not(.\--disabled) {
+          cursor: pointer; }
+          .calendar .__body > .__week > .__day:not(.\--disabled):hover {
+            background: lightgray; }
+

@@ -5,8 +5,6 @@ import { classNames } from "@leiops/helpers"
 
 import * as basicComponentProps from "utils/basicComponentProps"
 import * as basicTextAreaProps from "utils/basicTextAreaProps"
-import isDefined from "utils/isDefined"
-import withDebouncedOnChange from "utils/withDebouncedOnChange"
 import { baseClass } from "settings"
 import RawTextArea from "components/RawTextArea"
 
@@ -54,6 +52,4 @@ TextInput.defaultProps = {
   ...basicTextAreaProps.defaultProps
 }
 
-const WithDebounce = withDebouncedOnChange(TextInput)
-
-export default WithDebounce
+export default TextInput
