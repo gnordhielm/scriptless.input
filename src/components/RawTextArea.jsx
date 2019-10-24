@@ -65,6 +65,7 @@ const RawTextArea = React.forwardRef(
         value={value}
         readOnly={readOnly}
         rows={autoSize ? undefined : defaultRows}
+        ref={ref}
         {...restProps}
       />
     )
